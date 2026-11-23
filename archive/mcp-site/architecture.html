@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Architecture — MCP Hub</title>
+<meta name="description" content="How MCP is put together: the host-client-server model, the initialisation handshake, message types, stdio versus Streamable HTTP transports, and the security boundaries that matter.">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap nav">
+    <a class="brand" href="index.html"><span class="brand-mark">M</span> MCP Hub</a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-links">&#9776;</button>
+    <nav class="nav-links" id="nav-links" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="what-is-mcp.html">What is MCP</a>
+      <a href="architecture.html">Architecture</a>
+      <a href="servers.html">Servers</a>
+      <a href="quickstart.html">Quickstart</a>
+      <a href="tutorials.html">Tutorials</a>
+      <a href="blog.html">Blog</a>
+      <a href="faq.html">FAQ</a>
+      <a class="btn btn-primary btn-sm nav-cta" href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="page-head">
+    <div class="wrap">
+      <div class="breadcrumb"><a href="index.html">Home</a><span>/</span>Architecture</div>
+      <h1>How MCP is put together</h1>
+      <p>Three participants, one stateful session each, a fixed message vocabulary and two standard transports. This page walks through all of it.</p>
+    </div>
+  </div>
+
+  <section>
+    <div class="wrap">
+
+      <h2 id="participants">The three participants</h2>
+      <p class="lead">The naming trips people up, because "client" does not mean "the app you clicked on". It means the connector inside that app.</p>
+
+      <div class="diagram mt3" style="margin-bottom:2.4rem">
+        <div class="flow">
+          <div class="flow-node"><strong>Host</strong><span>Owns the model, the UI, and every approval decision</span></div>
+          <div class="flow-arrow">&#8594;</div>
+          <div class="flow-node"><strong>Client</strong><span>One per server. Negotiates and keeps the session</span></div>
+          <div class="flow-arrow">&#8646;</div>
+          <div class="flow-node"><strong>Server</strong><span>Exposes primitives, holds the credentials</span></div>
+        </div>
+      </div>
+
+      <div class="grid g3">
+        <div class="card">
+          <h3>Host</h3>
+          <p class="small mb0">The application a person uses: a desktop assistant, an IDE extension, an agent you wrote. It holds the conversation, calls the model, and is the only participant that can ask the user for consent.</p>
+        </div>
+        <div class="card">
+          <h3>Client</h3>
+          <p class="small mb0">A connector object inside the host, one instance per connected server. It performs the handshake, tracks that server's capabilities, and isolates it from the others. A host with five servers runs five clients.</p>
+        </div>
+        <div class="card">
+          <h3>Server</h3>
+          <p class="small mb0">A separate program — a local subprocess or a remote HTTP service — that answers protocol messages. It owns its own credentials and should enforce its own access rules. Never trust the caller to do that for you.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-warn mt3">
+        <p><strong>Isolation is the point.</strong> Because each server gets its own client and its own
+        session, one misbehaving server cannot read another's data or capabilities. Keep that
+        boundary intact when you design a host.</p>
+      </div>
+
+      <hr>
+
+      <h2 id="lifecycle">Session lifecycle</h2>
+      <ol class="steps">
+        <li>
+          <h3>Initialise</h3>
+          <p>The client sends <code>initialize</code> with the protocol version it wants and the capabilities it offers. The server replies with the version it will actually use plus its own capabilities. If the versions are incompatible, the connection ends here.</p>
+        </li>
+        <li>
+          <h3>Confirm</h3>
+          <p>The client sends the <code>notifications/initialized</code> notification. Only now may either side send ordinary requests. Jumping the gun is a protocol error.</p>
+        </li>
+        <li>
+          <h3>Discover</h3>
+          <p>The client calls <code>tools/list</code>, <code>resources/list</code> and <code>prompts/list</code> — but only the ones the server declared. Results are paginated with an opaque cursor, so loop until the cursor is absent.</p>
+        </li>
+        <li>
+          <h3>Operate</h3>
+          <p>Requests flow in both directions for as long as the session lives: <code>tools/call</code>, <code>resources/read</code>, <code>prompts/get</code> from the client; <code>sampling/createMessage</code> or <code>elicitation/create</code> from the server.</p>
+        </li>
+        <li>
+          <h3>Stay in sync</h3>
+          <p>When a server's offerings change it emits <code>notifications/tools/list_changed</code> (and the equivalents for resources and prompts). The client re-lists. Resource subscribers also get <code>notifications/resources/updated</code>.</p>
+        </li>
+        <li>
+          <h3>Shut down</h3>
+          <p>No shutdown message exists. Over stdio the client closes the input stream and waits for the process to exit; over HTTP it simply stops issuing requests and lets the session expire.</p>
+        </li>
+      </ol>
+
+      <hr>
+
+      <h2 id="messages">Message types</h2>
+      <p>
+        Everything is JSON-RPC 2.0, which gives you exactly three shapes. Requests carry an
+        <code>id</code> and expect a reply. Responses echo that <code>id</code> and carry either
+        <code>result</code> or <code>error</code>. Notifications have no <code>id</code> and get no
+        reply.
+      </p>
+
+      <div class="codeblock">
+        <div class="codeblock-head"><span>Request &mdash; the client calls a tool</span><button class="copy-btn" type="button">Copy</button></div>
+<pre><code>{
+  "jsonrpc": "2.0",
+  "id": 7,
+  "method": "tools/call",
+  "params": {
+    "name": "query_orders",
+    "arguments": { "region": "EMEA", "since": "2026-10-01" }
+  }
+}</code></pre>
+      </div>
+
+      <div class="codeblock">
+        <div class="codeblock-head"><span>Response &mdash; content blocks, never raw JSON strings</span><button class="copy-btn" type="button">Copy</button></div>
+<pre><code>{
+  "jsonrpc": "2.0",
+  "id": 7,
+  "result": {
+    "content": [
+      { "type": "text", "text": "412 orders, 1.84M total value." }
+    ],
+    "isError": false
+  }
+}</code></pre>
+      </div>
+
+      <div class="callout">
+        <p><strong>Two kinds of failure.</strong> A protocol failure (unknown method, malformed
+        params) is a JSON-RPC <code>error</code>. A <em>tool</em> failure — the query timed out,
+        the record does not exist — is a normal <code>result</code> with
+        <code>isError: true</code> and an explanatory message. The second kind reaches the model,
+        which can then retry or change course. The first kind does not.</p>
+      </div>
+
+      <div class="codeblock">
+        <div class="codeblock-head"><span>Notification &mdash; no id, no reply</span><button class="copy-btn" type="button">Copy</button></div>
+<pre><code>{
+  "jsonrpc": "2.0",
+  "method": "notifications/tools/list_changed"
+}</code></pre>
+      </div>
+
+      <h3>The vocabulary at a glance</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Method</th><th>Direction</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td><code>initialize</code></td><td>Client &rarr; Server</td><td>Version and capability negotiation</td></tr>
+            <tr><td><code>ping</code></td><td>Either way</td><td>Liveness check</td></tr>
+            <tr><td><code>tools/list</code></td><td>Client &rarr; Server</td><td>Enumerate callable tools with schemas</td></tr>
+            <tr><td><code>tools/call</code></td><td>Client &rarr; Server</td><td>Execute one tool</td></tr>
+            <tr><td><code>resources/list</code></td><td>Client &rarr; Server</td><td>Enumerate available resources</td></tr>
+            <tr><td><code>resources/read</code></td><td>Client &rarr; Server</td><td>Fetch the contents of a URI</td></tr>
+            <tr><td><code>resources/subscribe</code></td><td>Client &rarr; Server</td><td>Ask to be told when a resource changes</td></tr>
+            <tr><td><code>prompts/list</code></td><td>Client &rarr; Server</td><td>Enumerate prompt templates</td></tr>
+            <tr><td><code>prompts/get</code></td><td>Client &rarr; Server</td><td>Expand a template with arguments</td></tr>
+            <tr><td><code>sampling/createMessage</code></td><td>Server &rarr; Client</td><td>Server borrows the host's model</td></tr>
+            <tr><td><code>roots/list</code></td><td>Server &rarr; Client</td><td>Ask which URIs are in scope</td></tr>
+            <tr><td><code>elicitation/create</code></td><td>Server &rarr; Client</td><td>Ask the user a structured question</td></tr>
+            <tr><td><code>logging/setLevel</code></td><td>Client &rarr; Server</td><td>Turn server log verbosity up or down</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <hr>
+
+      <h2 id="transports">Transports</h2>
+      <p>
+        The message layer is identical either way; only the pipe changes. Pick by where the server
+        runs, not by preference.
+      </p>
+
+      <div class="grid g2" style="margin-bottom:1.8rem">
+        <div class="card">
+          <span class="badge badge-green">Local</span>
+          <h3 style="margin-top:12px">stdio</h3>
+          <p class="small">The client launches the server as a child process and exchanges newline-delimited JSON over stdin and stdout.</p>
+          <ul class="small" style="margin-bottom:0">
+            <li>No ports, no network, no auth layer to get wrong</li>
+            <li>Inherits the user's own machine permissions</li>
+            <li>Dies with the host, so no orphaned state</li>
+            <li><strong>Never write anything but protocol frames to stdout</strong> — logs go to stderr</li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="badge badge-amber">Remote</span>
+          <h3 style="margin-top:12px">Streamable HTTP</h3>
+          <p class="small">The server exposes a single endpoint. The client POSTs requests; the server may reply with one JSON body or an SSE stream for progress and server-initiated messages.</p>
+          <ul class="small" style="margin-bottom:0">
+            <li>One server serves many users</li>
+            <li>Sessions tracked with an <code>Mcp-Session-Id</code> header</li>
+            <li>Authorisation is OAuth 2.1-based for public deployments</li>
+            <li>Supersedes the older HTTP+SSE two-endpoint design</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout callout-warn">
+        <p><strong>If you deploy over HTTP:</strong> validate the <code>Origin</code> header to
+        block DNS-rebinding attacks, bind to <code>127.0.0.1</code> rather than
+        <code>0.0.0.0</code> when the server is only for local use, and never accept a token that
+        was not issued for your server. Confused-deputy problems are the most common serious bug
+        in remote MCP deployments.</p>
+      </div>
+
+      <hr>
+
+      <h2 id="security">Security boundaries worth drawing</h2>
+      <div class="grid g2">
+        <div class="card">
+          <h3>Consent belongs to the host</h3>
+          <p class="small mb0">Only the host can see the user. It must show what a tool will do and get approval before a side-effecting call — not after. Servers cannot be trusted to self-police, and a prompt asking them to is not a control.</p>
+        </div>
+        <div class="card">
+          <h3>Tool results are untrusted input</h3>
+          <p class="small mb0">A fetched page or a database row can contain text engineered to look like an instruction. Treat everything that comes back from a server as data. This is the main prompt-injection surface in any MCP deployment.</p>
+        </div>
+        <div class="card">
+          <h3>Least privilege, enforced server-side</h3>
+          <p class="small mb0">Give a server read-only credentials when reading is all it does. Scope filesystem access to specific directories. Check permissions inside the tool handler, because that is the only place the check cannot be skipped.</p>
+        </div>
+        <div class="card">
+          <h3>Install sources are a supply chain</h3>
+          <p class="small mb0">A stdio server runs with your user's privileges on your machine. Read the code, pin the version, and prefer servers whose source you can inspect over an opaque binary.</p>
+        </div>
+      </div>
+
+      <div class="cta-band mt3">
+        <h2>Now build one</h2>
+        <p>The quickstart turns all of this into a working server you can call from a real client.</p>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="quickstart.html">Open the quickstart &rarr;</a>
+          <a class="btn btn-ghost" href="servers.html">Browse existing servers</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-col footer-about">
+        <a class="brand" href="index.html" style="margin-bottom:14px"><span class="brand-mark">M</span> MCP Hub</a>
+        <p class="dim">An independent, community-written guide to the Model Context Protocol. Not affiliated with any protocol maintainer or vendor.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="what-is-mcp.html">What is MCP</a></li>
+          <li><a href="architecture.html">Architecture</a></li>
+          <li><a href="quickstart.html">Quickstart</a></li>
+          <li><a href="tutorials.html">Tutorials</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="servers.html">Server directory</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Reference</h4>
+        <ul>
+          <li><a href="architecture.html#transports">Transports</a></li>
+          <li><a href="architecture.html#messages">Message types</a></li>
+          <li><a href="what-is-mcp.html#glossary">Glossary</a></li>
+          <li><a href="quickstart.html#troubleshooting">Troubleshooting</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span data-year>2026</span> MCP Hub &middot; Educational resource.</span>
+      <span>Static site &middot; no trackers, no cookies.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

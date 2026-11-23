@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FAQ — MCP Hub</title>
+<meta name="description" content="Frequently asked questions about the Model Context Protocol: how it differs from function calling and plugins, transports, security, costs, and whether you should adopt it.">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap nav">
+    <a class="brand" href="index.html"><span class="brand-mark">M</span> MCP Hub</a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-links">&#9776;</button>
+    <nav class="nav-links" id="nav-links" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="what-is-mcp.html">What is MCP</a>
+      <a href="architecture.html">Architecture</a>
+      <a href="servers.html">Servers</a>
+      <a href="quickstart.html">Quickstart</a>
+      <a href="tutorials.html">Tutorials</a>
+      <a href="blog.html">Blog</a>
+      <a href="faq.html">FAQ</a>
+      <a class="btn btn-primary btn-sm nav-cta" href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="page-head">
+    <div class="wrap">
+      <div class="breadcrumb"><a href="index.html">Home</a><span>/</span>FAQ</div>
+      <h1>Frequently asked questions</h1>
+      <p>The questions that come up most often, answered directly. Click any question to expand it.</p>
+    </div>
+  </div>
+
+  <section>
+    <div class="wrap wrap-narrow">
+
+      <h2>Basics</h2>
+
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">
+          Is MCP tied to one AI vendor?<span class="chevron">&#9662;</span>
+        </button>
+        <div class="faq-a">
+          <p>No. The specification is open and the SDKs are open source, and implementations exist
+          across competing products. A server you write works with any client that speaks the
+          protocol — that interoperability is the entire point. Anthropic introduced the protocol
+          and remains a major contributor, but using it does not commit you to any particular
+          model or vendor.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">
+          How is this different from plain function calling?<span class="chevron">&#9662;</span>
+        </button>
+        <div class="faq-a">
+          <p>Function calling is a model capability: the model emits a structured request to invoke
+          a function you described to it. MCP is an application protocol that standardises where
+          those descriptions come from, how they are discovered at runtime, and how results come
+          back — plus resources and prompts, which function calling has no concept of.</p>
+          <p>They work together. A host typically uses function calling to let the model choose,
+          and MCP to source the options. <a href="what-is-mcp.html#vs-function-calling">Side-by-side
+          comparison here.</a></p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">
+          Do I need MCP if I only have one application?<span class="chevron">&#9662;</span>
+        </button>
+        <div class="faq-a">
+          <p>Not strictly. With one app and two integrations, direct function calling is less
+          machinery. The case for MCP strengthens when any of these is true: you expect more
+          integrations, you want them to outlive your current AI application, other teams want to
+          reuse them, or you would like to drop in existing community servers rather than write
+          your own.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">
+          Is it only for chat assistants?<span class="chevron">&#9662;</span>
+        </button>
+        <div class="faq-a">
+          <p>No. Any program that calls a model can act as a host — a CI job, a batch pipeline, a
+          background agent, a CLI. There is nothing chat-specific in the protocol. Features that
+          need a human, such as approval prompts and elicitation, degrade gracefully: a headless
+          host simply declines them.</p>
+        </div>
+      </div>
+
+      <h2 class="mt3">Building</h2>
+
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">
+          Which language should I write a server in?<span class="chevron">&#9662;</span>
+        </button>
+        <div class="faq-a">
+          <p>Whichever already has a client library for the system you are wrapping. Official SDKs
+          cover Python, TypeScript, Java, Kotlin, C#, Go, Ruby, Rust, PHP and Swift, and they all
+          implement the same protocol. Python and TypeScript have the largest example corpus if
+          you want the most material to copy from.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">
+          stdio or HTTP?<span class="chevron">&#9662;</span>
+        </button>
+        <div class="faq-a">
+          <p><strong>stdio</strong> when the server runs on the same machine as the client: no
+          ports, no auth layer, and it inherits the user's own permissions. <strong>Streamable
+          HTTP</strong> when one deployment serves many users or must live behind a network
+          boundary — which also means you own authentication, session management and
+          <code>Origin</code> validation.</p>
+          <p>Start with stdio. Moving to HTTP later is a transport swap, not a rewrite.
+          <a href="architecture.html#transports">Details on both.</a></p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">
+          How many tools should one server expose?<span class="chevron">&#9662;</span>
+        </button>
+        <div class="faq-a">
+          <p>Fewer than you think. Selection accuracy drops as the list grows, particularly when
+          several names could plausibly match a request. Collapse close variants behind one tool
+          with an enum argument, and split genuinely different domains into separate servers so a
+          host can enable them per workspace.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">
+          My tools are listed but the model never calls them. Why?<span class="chevron">&#9662;</span>
+        </button>
+        <div class="faq-a">
+          <p>Nine times out of ten the description is the problem. The model reads only the name,
+          the description and the schema — so say what the tool does, <em>when</em> to use it, and
+          what it returns, with an example value on each argument. Verify the tool actually works
+          in the Inspector first, so you know you are tuning wording rather than chasing a broken
+          handler.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">
+          Can a server keep state between calls?<span class="chevron">&#9662;</span>
+        </button>
+        <div class="faq-a">
+          <p>Yes — the session is stateful and a stdio server is a long-lived process, so you can
+          hold caches, connection pools and progress. Two cautions: over HTTP a session may be
+          served by any instance behind the load balancer, so keep shared state external; and do
+          not make correctness depend on call ordering, because the model does not guarantee it.</p>
+        </div>
+      </div>
+
+      <h2 class="mt3">Security and operations</h2>
+
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">
+          Is it safe to install a server someone else wrote?<span class="chevron">&#9662;</span>
+        </button>
+        <div class="faq-a">
+          <p>Treat it exactly like any other dependency you are about to give filesystem access to.
+          A stdio server runs as a local process with your user's privileges, so it can read what
+          you can read. Read the source, pin an exact version rather than a floating tag, prefer
+          inspectable code over opaque binaries, and scope what you hand it — a directory, not your
+          home folder.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">
+          Can a server see my whole conversation?<span class="chevron">&#9662;</span>
+        </button>
+        <div class="faq-a">
+          <p>No. A server sees the arguments of calls made to it, and nothing else. It cannot read
+          the conversation, the system prompt, or traffic to other servers — each server gets its
+          own isolated client session. The exception is deliberate: if a server requests sampling,
+          the client decides what context, if any, to include in that completion.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">
+          What about prompt injection through tool results?<span class="chevron">&#9662;</span>
+        </button>
+        <div class="faq-a">
+          <p>This is the real risk, and it is not fully solved by anything in the protocol. A
+          fetched page or a database row can contain text engineered to read as an instruction.
+          Mitigations that help: treat all tool output as untrusted data and frame it that way in
+          context, require human approval for side-effecting calls, never let one tool's output
+          authorise another tool's call, and apply least privilege so a successful injection has
+          little to reach.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">
+          Does MCP cost anything?<span class="chevron">&#9662;</span>
+        </button>
+        <div class="faq-a">
+          <p>The protocol and SDKs are free and open source. What costs money is tokens: tool
+          definitions occupy context on every request, and tool results occupy more. A server with
+          thirty verbose tools has a real per-call price. Keeping descriptions tight and results
+          summarised is a cost control as much as a quality one.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">
+          How do I debug a server that will not connect?<span class="chevron">&#9662;</span>
+        </button>
+        <div class="faq-a">
+          <p>In order: validate the config JSON; use an absolute path to the interpreter, since the
+          client does not inherit your shell's <code>PATH</code>; check that nothing writes to
+          stdout; then run the server under the Inspector to isolate the server from the client.
+          <a href="quickstart.html#troubleshooting">Full troubleshooting table.</a></p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">
+          Will the spec break my server next year?<span class="chevron">&#9662;</span>
+        </button>
+        <div class="faq-a">
+          <p>Versions are negotiated during <code>initialize</code>, so a client and server agree
+          on a version they both support rather than guessing. The protocol has evolved — the
+          two-endpoint HTTP+SSE transport gave way to Streamable HTTP, for instance — so pin your
+          SDK version, read release notes before upgrading, and keep an eye on which revision your
+          target clients actually speak.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" type="button" aria-expanded="false">
+          Where should I start if I have an hour?<span class="chevron">&#9662;</span>
+        </button>
+        <div class="faq-a">
+          <p>Twenty minutes connecting the filesystem server to a client you already use, twenty
+          writing a one-tool server that wraps an API you know, and twenty in the Inspector
+          deliberately breaking it to see what the errors look like. That hour teaches more than
+          reading the specification front to back.</p>
+          <p><a href="quickstart.html">Start with the quickstart.</a></p>
+        </div>
+      </div>
+
+      <div class="cta-band mt3">
+        <h2>Still stuck on something?</h2>
+        <p>Send the question over. Answers that turn out to be broadly useful end up on this page.</p>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="contact.html">Ask a question</a>
+          <a class="btn btn-ghost" href="blog.html">Read the field notes</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-col footer-about">
+        <a class="brand" href="index.html" style="margin-bottom:14px"><span class="brand-mark">M</span> MCP Hub</a>
+        <p class="dim">An independent, community-written guide to the Model Context Protocol. Not affiliated with any protocol maintainer or vendor.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="what-is-mcp.html">What is MCP</a></li>
+          <li><a href="architecture.html">Architecture</a></li>
+          <li><a href="quickstart.html">Quickstart</a></li>
+          <li><a href="tutorials.html">Tutorials</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="servers.html">Server directory</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Reference</h4>
+        <ul>
+          <li><a href="architecture.html#transports">Transports</a></li>
+          <li><a href="architecture.html#messages">Message types</a></li>
+          <li><a href="what-is-mcp.html#glossary">Glossary</a></li>
+          <li><a href="quickstart.html#troubleshooting">Troubleshooting</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span data-year>2026</span> MCP Hub &middot; Educational resource.</span>
+      <span>Static site &middot; no trackers, no cookies.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What is MCP? — MCP Hub</title>
+<meta name="description" content="A plain-language introduction to the Model Context Protocol: the problem it solves, its three server primitives, how it differs from plain function calling, and a glossary of terms.">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap nav">
+    <a class="brand" href="index.html"><span class="brand-mark">M</span> MCP Hub</a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-links">&#9776;</button>
+    <nav class="nav-links" id="nav-links" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="what-is-mcp.html">What is MCP</a>
+      <a href="architecture.html">Architecture</a>
+      <a href="servers.html">Servers</a>
+      <a href="quickstart.html">Quickstart</a>
+      <a href="tutorials.html">Tutorials</a>
+      <a href="blog.html">Blog</a>
+      <a href="faq.html">FAQ</a>
+      <a class="btn btn-primary btn-sm nav-cta" href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="page-head">
+    <div class="wrap">
+      <div class="breadcrumb"><a href="index.html">Home</a><span>/</span>What is MCP</div>
+      <h1>What is the Model Context Protocol?</h1>
+      <p>An open standard for connecting AI applications to the systems where context actually lives. Think of it as a common port: one shape of plug, many devices.</p>
+    </div>
+  </div>
+
+  <section>
+    <div class="wrap wrap-narrow">
+
+      <h2>The short version</h2>
+      <p class="lead">
+        MCP defines how an AI application asks an external system for context and for permission
+        to act on it. The application and the system do not need to know anything about each
+        other's internals — only the protocol.
+      </p>
+      <p>
+        Concretely, it is a <strong>JSON-RPC 2.0</strong> message layer with a defined handshake,
+        a fixed vocabulary of request types, and a small set of primitives that a server can
+        expose. It is transport-agnostic: the same messages run over a local pipe or over HTTP.
+      </p>
+
+      <div class="callout">
+        <p><strong>One sentence to remember:</strong> MCP is to AI context what a device driver
+        interface is to hardware — the host does not care who wrote the server, only that it
+        answers the agreed messages.</p>
+      </div>
+
+      <hr>
+
+      <h2 id="problem">The problem it solves</h2>
+      <p>
+        Language models are trained once and then frozen. Anything specific to you — this week's
+        sales figures, your team's naming conventions, the ticket you filed an hour ago — is
+        simply absent. You can paste it in by hand, but that does not scale and it does not let
+        the model <em>act</em>.
+      </p>
+      <p>
+        The obvious fix is to build integrations. The trouble is the arithmetic. Each AI
+        application needs its own connector for each data source, in that application's own
+        plugin format:
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Approach</th><th>Integrations to build</th><th>Adding a 6th data source</th><th>Adding a 5th app</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Bespoke glue</strong><br><span class="small dim">4 apps &times; 5 sources</span></td>
+              <td>20</td>
+              <td>+4 new connectors</td>
+              <td>+5 new connectors</td>
+            </tr>
+            <tr>
+              <td><strong>MCP</strong><br><span class="small dim">4 clients + 5 servers</span></td>
+              <td>9</td>
+              <td>+1 server, works everywhere</td>
+              <td>+1 client, gets all servers</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>
+        That is the whole value proposition. MCP converts a multiplication into an addition.
+        A server you write for your warehouse works in a desktop chat app, an IDE and your own
+        internal agent without modification.
+      </p>
+
+      <hr>
+
+      <h2 id="primitives">The three server primitives</h2>
+      <p>
+        A server declares which of these it supports during the handshake. Most servers implement
+        tools; resources and prompts are optional but valuable.
+      </p>
+
+      <div class="grid g3" style="margin-bottom:2rem">
+        <div class="card">
+          <div class="card-icon">&#9881;</div>
+          <h3>Tools</h3>
+          <p class="small"><strong>Model-controlled.</strong> The model decides when to call them.</p>
+          <p class="small mb0">Each tool has a name, a description and a JSON Schema for its input. The description is a prompt: write it for a reader who has never seen your system.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128196;</div>
+          <h3>Resources</h3>
+          <p class="small"><strong>Application-controlled.</strong> The host chooses what to attach.</p>
+          <p class="small mb0">Addressed by URI, returned as text or binary. Can be listed, read, subscribed to for change notifications, or templated with parameters.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#128172;</div>
+          <h3>Prompts</h3>
+          <p class="small"><strong>User-controlled.</strong> A person picks them deliberately.</p>
+          <p class="small mb0">Named templates with typed arguments that expand into a prepared message sequence. Usually surfaced in the UI as slash commands.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-good">
+        <p><strong>Why the distinction matters.</strong> The three categories encode <em>who is in
+        control</em>. That is a security boundary, not a stylistic choice: a host can reasonably
+        auto-attach a resource, but it should always ask before running a tool that writes
+        somewhere.</p>
+      </div>
+
+      <h3>And three the other way</h3>
+      <p>
+        The protocol is bidirectional. A client can declare capabilities that servers may call
+        back into:
+      </p>
+      <ul>
+        <li><strong>Sampling</strong> — the server asks the client to run a model completion on its behalf, so server authors do not need their own API key or model choice.</li>
+        <li><strong>Roots</strong> — the client tells the server which directories or URIs are in scope for this session.</li>
+        <li><strong>Elicitation</strong> — the server asks the user a structured question mid-operation, rather than failing on a missing argument.</li>
+      </ul>
+
+      <hr>
+
+      <h2 id="vs-function-calling">How is this different from function calling?</h2>
+      <p>
+        Function calling is a <em>model</em> feature: the model emits a structured request to
+        invoke a function you described. MCP is an <em>application</em> protocol: it standardises
+        where those function descriptions come from, how they are discovered at runtime, and how
+        results travel back. The two are complements, not competitors — a host typically uses
+        function calling to let the model choose, and MCP to source the choices.
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th></th><th>Plain function calling</th><th>MCP</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Where tools are defined</td><td>Hard-coded in your application</td><td>Discovered from servers at runtime</td></tr>
+            <tr><td>Adding a capability</td><td>Redeploy the application</td><td>Add a server entry to config</td></tr>
+            <tr><td>Reusable across apps</td><td>No — per-vendor format</td><td>Yes — any MCP client</td></tr>
+            <tr><td>Beyond tools</td><td>Tools only</td><td>Resources and prompts too</td></tr>
+            <tr><td>Stateful session</td><td>Not defined</td><td>Yes, with change notifications</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <hr>
+
+      <h2 id="who">Who should care</h2>
+      <div class="grid g2" style="margin-bottom:1.5rem">
+        <div class="card">
+          <h3>If you build AI applications</h3>
+          <p class="small mb0">Implement the client side once and inherit the whole server ecosystem. You stop writing integrations and start choosing them.</p>
+        </div>
+        <div class="card">
+          <h3>If you own a data source or API</h3>
+          <p class="small mb0">Write one server and become reachable from every MCP-capable assistant, without partnering with each vendor individually.</p>
+        </div>
+        <div class="card">
+          <h3>If you run a platform team</h3>
+          <p class="small mb0">Expose internal systems through servers you host and audit. Access policy lives in your code, not in a prompt.</p>
+        </div>
+        <div class="card">
+          <h3>If you are just curious</h3>
+          <p class="small mb0">A reference server plus a config file is a fifteen-minute experiment. <a href="quickstart.html">The quickstart</a> is the fastest route in.</p>
+        </div>
+      </div>
+
+      <hr>
+
+      <h2 id="glossary">Glossary</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Host</strong></td><td>The AI application a person interacts with. Owns the model, the UI and the approval decisions.</td></tr>
+            <tr><td><strong>Client</strong></td><td>The connector inside the host that maintains one session with one server. Hosts run several in parallel.</td></tr>
+            <tr><td><strong>Server</strong></td><td>A program exposing tools, resources and prompts over the protocol. Local process or remote service.</td></tr>
+            <tr><td><strong>Capability</strong></td><td>A feature declared during initialisation. Neither side may use a feature the other did not declare.</td></tr>
+            <tr><td><strong>Transport</strong></td><td>How bytes move: <code>stdio</code> for local processes, Streamable HTTP for remote ones.</td></tr>
+            <tr><td><strong>JSON-RPC 2.0</strong></td><td>The message format: requests with an id, matching responses, and one-way notifications.</td></tr>
+            <tr><td><strong>Sampling</strong></td><td>A server asking the client to perform a model completion for it.</td></tr>
+            <tr><td><strong>Root</strong></td><td>A directory or URI the client declares as in-scope for the session.</td></tr>
+            <tr><td><strong>Elicitation</strong></td><td>A server requesting structured input from the user mid-operation.</td></tr>
+            <tr><td><strong>Inspector</strong></td><td>The developer tool for exercising a server by hand, with no model involved.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="cta-band mt3">
+        <h2>Next: how the pieces fit</h2>
+        <p>The architecture page walks the handshake message by message and compares the two transports.</p>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="architecture.html">Read the architecture &rarr;</a>
+          <a class="btn btn-ghost" href="faq.html">Common questions</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-col footer-about">
+        <a class="brand" href="index.html" style="margin-bottom:14px"><span class="brand-mark">M</span> MCP Hub</a>
+        <p class="dim">An independent, community-written guide to the Model Context Protocol. Not affiliated with any protocol maintainer or vendor.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="what-is-mcp.html">What is MCP</a></li>
+          <li><a href="architecture.html">Architecture</a></li>
+          <li><a href="quickstart.html">Quickstart</a></li>
+          <li><a href="tutorials.html">Tutorials</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="servers.html">Server directory</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Reference</h4>
+        <ul>
+          <li><a href="architecture.html#transports">Transports</a></li>
+          <li><a href="architecture.html#messages">Message types</a></li>
+          <li><a href="what-is-mcp.html#glossary">Glossary</a></li>
+          <li><a href="quickstart.html#troubleshooting">Troubleshooting</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span data-year>2026</span> MCP Hub &middot; Educational resource.</span>
+      <span>Static site &middot; no trackers, no cookies.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

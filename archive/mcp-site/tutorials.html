@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tutorials — MCP Hub</title>
+<meta name="description" content="Hands-on MCP tutorials, from a first stdio server to OAuth-protected remote deployments, grouped into a beginner, intermediate and advanced learning path.">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap nav">
+    <a class="brand" href="index.html"><span class="brand-mark">M</span> MCP Hub</a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-links">&#9776;</button>
+    <nav class="nav-links" id="nav-links" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="what-is-mcp.html">What is MCP</a>
+      <a href="architecture.html">Architecture</a>
+      <a href="servers.html">Servers</a>
+      <a href="quickstart.html">Quickstart</a>
+      <a href="tutorials.html">Tutorials</a>
+      <a href="blog.html">Blog</a>
+      <a href="faq.html">FAQ</a>
+      <a class="btn btn-primary btn-sm nav-cta" href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="page-head">
+    <div class="wrap">
+      <div class="breadcrumb"><a href="index.html">Home</a><span>/</span>Tutorials</div>
+      <h1>Tutorials</h1>
+      <p>Twelve walkthroughs in a deliberate order. Each one ends with something that runs, and each builds on the one before it.</p>
+    </div>
+  </div>
+
+  <section>
+    <div class="wrap">
+
+      <!-- Learning path -->
+      <div class="panel" style="margin-bottom:3rem">
+        <h2 class="mt0">The path</h2>
+        <div class="grid g3">
+          <div>
+            <span class="badge badge-green">Beginner</span>
+            <h3 style="margin-top:12px">Get something working</h3>
+            <p class="small mb0">Connect a reference server, write your first tool, learn to debug with the Inspector. No protocol internals required.</p>
+          </div>
+          <div>
+            <span class="badge badge-amber">Intermediate</span>
+            <h3 style="margin-top:12px">Make it genuinely useful</h3>
+            <p class="small mb0">Real data sources, resources and prompts, error handling that the model can recover from, tool descriptions that actually get used.</p>
+          </div>
+          <div>
+            <span class="badge badge-accent">Advanced</span>
+            <h3 style="margin-top:12px">Ship it to other people</h3>
+            <p class="small mb0">Remote transport, OAuth, multi-tenant sessions, the client side of the protocol, and testing an agent loop end to end.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Beginner -->
+      <h2>Beginner</h2>
+      <div class="grid g2" style="margin-bottom:2.6rem">
+
+        <article class="card card-hover">
+          <div class="tag-row" style="margin-bottom:12px">
+            <span class="badge badge-green">Beginner</span><span class="badge">15 min</span><span class="badge">Python</span>
+          </div>
+          <h3>Your first tool in 15 minutes</h3>
+          <p>Install the SDK, define a single tool with a typed argument, run it over stdio and call it from a client. The shortest complete path from nothing to working.</p>
+          <p class="small dim mb0">Covers: FastMCP, stdio, client config</p>
+        </article>
+
+        <article class="card card-hover">
+          <div class="tag-row" style="margin-bottom:12px">
+            <span class="badge badge-green">Beginner</span><span class="badge">20 min</span><span class="badge">TypeScript</span>
+          </div>
+          <h3>The same server in TypeScript</h3>
+          <p>The Node equivalent, with Zod schemas for validation and a brief detour into why the SDK wants your tool handler to return content blocks rather than plain strings.</p>
+          <p class="small dim mb0">Covers: TS SDK, Zod, content blocks</p>
+        </article>
+
+        <article class="card card-hover">
+          <div class="tag-row" style="margin-bottom:12px">
+            <span class="badge badge-green">Beginner</span><span class="badge">25 min</span><span class="badge">Tooling</span>
+          </div>
+          <h3>Debugging with the Inspector</h3>
+          <p>Drive your server by hand with no model in the loop. Learn to read the raw JSON-RPC traffic so you can tell a broken handler from a badly described tool.</p>
+          <p class="small dim mb0">Covers: Inspector, JSON-RPC frames, stderr logging</p>
+        </article>
+
+        <article class="card card-hover">
+          <div class="tag-row" style="margin-bottom:12px">
+            <span class="badge badge-green">Beginner</span><span class="badge">20 min</span><span class="badge">Concepts</span>
+          </div>
+          <h3>Exposing files as resources</h3>
+          <p>Add read-only context addressed by URI, including templated resources with parameters, and see why resources are the host's decision rather than the model's.</p>
+          <p class="small dim mb0">Covers: resources/list, resources/read, URI templates</p>
+        </article>
+
+      </div>
+
+      <!-- Intermediate -->
+      <h2>Intermediate</h2>
+      <div class="grid g2" style="margin-bottom:2.6rem">
+
+        <article class="card card-hover">
+          <div class="tag-row" style="margin-bottom:12px">
+            <span class="badge badge-amber">Intermediate</span><span class="badge">45 min</span><span class="badge">Python</span>
+          </div>
+          <h3>A read-only database server</h3>
+          <p>Expose table schemas as resources and a parameterised query tool. Includes statement allow-listing, row limits and result summarisation so a wide table cannot flood the context window.</p>
+          <p class="small dim mb0">Covers: SQL safety, pagination, schema resources</p>
+        </article>
+
+        <article class="card card-hover">
+          <div class="tag-row" style="margin-bottom:12px">
+            <span class="badge badge-amber">Intermediate</span><span class="badge">30 min</span><span class="badge">Craft</span>
+          </div>
+          <h3>Writing tool descriptions the model will use</h3>
+          <p>The highest-leverage work in server design. A before-and-after rewrite of four weak descriptions, with a repeatable method for testing whether a change actually helped.</p>
+          <p class="small dim mb0">Covers: naming, when-to-use guidance, schema descriptions</p>
+        </article>
+
+        <article class="card card-hover">
+          <div class="tag-row" style="margin-bottom:12px">
+            <span class="badge badge-amber">Intermediate</span><span class="badge">35 min</span><span class="badge">Concepts</span>
+          </div>
+          <h3>Prompts as reusable workflows</h3>
+          <p>Package a code-review checklist and an incident postmortem into prompt templates with typed arguments, and see how clients surface them as slash commands.</p>
+          <p class="small dim mb0">Covers: prompts/list, prompts/get, argument completion</p>
+        </article>
+
+        <article class="card card-hover">
+          <div class="tag-row" style="margin-bottom:12px">
+            <span class="badge badge-amber">Intermediate</span><span class="badge">40 min</span><span class="badge">Reliability</span>
+          </div>
+          <h3>Errors a model can recover from</h3>
+          <p>The difference between a protocol error and a tool error, why that distinction decides whether the agent can retry, plus timeouts, partial results and progress notifications.</p>
+          <p class="small dim mb0">Covers: isError, JSON-RPC errors, progress tokens</p>
+        </article>
+
+      </div>
+
+      <!-- Advanced -->
+      <h2>Advanced</h2>
+      <div class="grid g2" style="margin-bottom:2.6rem">
+
+        <article class="card card-hover">
+          <div class="tag-row" style="margin-bottom:12px">
+            <span class="badge badge-accent">Advanced</span><span class="badge">60 min</span><span class="badge">Deployment</span>
+          </div>
+          <h3>From stdio to Streamable HTTP</h3>
+          <p>Take a working local server remote: the single-endpoint design, session identifiers, when to upgrade a response to an SSE stream, and how to keep sessions alive behind a load balancer.</p>
+          <p class="small dim mb0">Covers: Streamable HTTP, Mcp-Session-Id, SSE</p>
+        </article>
+
+        <article class="card card-hover">
+          <div class="tag-row" style="margin-bottom:12px">
+            <span class="badge badge-accent">Advanced</span><span class="badge">75 min</span><span class="badge">Security</span>
+          </div>
+          <h3>OAuth 2.1 for a public server</h3>
+          <p>Protected resource metadata, dynamic client registration, token audience validation, and a close look at the confused-deputy mistake that makes a server a credential laundering service.</p>
+          <p class="small dim mb0">Covers: OAuth 2.1, audience checks, scope design</p>
+        </article>
+
+        <article class="card card-hover">
+          <div class="tag-row" style="margin-bottom:12px">
+            <span class="badge badge-accent">Advanced</span><span class="badge">50 min</span><span class="badge">Client side</span>
+          </div>
+          <h3>Writing an MCP client</h3>
+          <p>Implement the other half: the handshake, capability tracking, running several sessions in parallel, and turning discovered tools into function definitions for a model call.</p>
+          <p class="small dim mb0">Covers: initialize, capability negotiation, session management</p>
+        </article>
+
+        <article class="card card-hover">
+          <div class="tag-row" style="margin-bottom:12px">
+            <span class="badge badge-accent">Advanced</span><span class="badge">45 min</span><span class="badge">Advanced</span>
+          </div>
+          <h3>Sampling and elicitation</h3>
+          <p>Let your server borrow the host's model instead of carrying its own API key, and ask the user a structured question mid-operation rather than failing on a missing argument.</p>
+          <p class="small dim mb0">Covers: sampling/createMessage, elicitation/create, human approval</p>
+        </article>
+
+        <article class="card card-hover">
+          <div class="tag-row" style="margin-bottom:12px">
+            <span class="badge badge-accent">Advanced</span><span class="badge">55 min</span><span class="badge">Testing</span>
+          </div>
+          <h3>Testing an agent loop end to end</h3>
+          <p>Fixtures for protocol conformance, a fake client for integration tests, and evaluation runs that check whether the model actually picks the right tool for a given request.</p>
+          <p class="small dim mb0">Covers: conformance tests, fakes, tool-selection evals</p>
+        </article>
+
+        <article class="card card-hover">
+          <div class="tag-row" style="margin-bottom:12px">
+            <span class="badge badge-accent">Advanced</span><span class="badge">40 min</span><span class="badge">Operations</span>
+          </div>
+          <h3>Running servers in production</h3>
+          <p>Containerising a server, dropping privileges, structured logging that never touches stdout, health checks, rate limits per session and an audit trail of every tool call.</p>
+          <p class="small dim mb0">Covers: containers, observability, rate limiting, auditing</p>
+        </article>
+
+      </div>
+
+      <div class="callout">
+        <p><strong>How to work through these.</strong> Do the first beginner tutorial even if it
+        looks trivial — it establishes the config and debugging loop every later one assumes. After
+        that, skip freely: the intermediate and advanced tracks are independent of each other.</p>
+      </div>
+
+      <div class="cta-band mt3">
+        <h2>Want one that is not here?</h2>
+        <p>Tell us what you are stuck on. Gaps in this list get filled based on what people ask for.</p>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="contact.html">Request a tutorial</a>
+          <a class="btn btn-ghost" href="faq.html">Check the FAQ first</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-col footer-about">
+        <a class="brand" href="index.html" style="margin-bottom:14px"><span class="brand-mark">M</span> MCP Hub</a>
+        <p class="dim">An independent, community-written guide to the Model Context Protocol. Not affiliated with any protocol maintainer or vendor.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="what-is-mcp.html">What is MCP</a></li>
+          <li><a href="architecture.html">Architecture</a></li>
+          <li><a href="quickstart.html">Quickstart</a></li>
+          <li><a href="tutorials.html">Tutorials</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="servers.html">Server directory</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Reference</h4>
+        <ul>
+          <li><a href="architecture.html#transports">Transports</a></li>
+          <li><a href="architecture.html#messages">Message types</a></li>
+          <li><a href="what-is-mcp.html#glossary">Glossary</a></li>
+          <li><a href="quickstart.html#troubleshooting">Troubleshooting</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span data-year>2026</span> MCP Hub &middot; Educational resource.</span>
+      <span>Static site &middot; no trackers, no cookies.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

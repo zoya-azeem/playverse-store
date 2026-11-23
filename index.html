@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PlayVerse — Games and apps for every device</title>
+<meta name="description" content="PlayVerse is a demo app and game store: browse games and apps, check the top charts, read reviews and build your library.">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-main">
+    <a class="logo" href="index.html"><span class="logo-mark" aria-hidden="true"></span> <span>PlayVerse</span></a>
+    <form class="searchbar" id="top-search-form" role="search" onsubmit="return false">
+      <input type="search" id="top-search" placeholder="Search games, apps and studios" aria-label="Search the store">
+    </form>
+    <div class="topbar-actions">
+      <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch between light and dark mode" title="Switch theme">&#9790;</button>
+      <a class="icon-btn optional" href="support.html" aria-label="Help and support" title="Help">?</a>
+      <div class="avatar" aria-hidden="true">PV</div>
+    </div>
+  </div>
+  <div class="wrap">
+    <nav class="topbar-tabs" aria-label="Store sections">
+      <a href="index.html">For you</a>
+      <a href="games.html">Games</a>
+      <a href="apps.html">Apps</a>
+      <a href="charts.html">Top charts</a>
+      <a href="categories.html">Categories</a>
+      <a href="library.html">Library <span class="badge badge-accent" data-lib-count style="display:none"></span></a>
+      <a href="support.html">Support</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- ===== Featured ===== -->
+  <section>
+    <div class="wrap">
+      <div class="hero-banner">
+        <div>
+          <span class="hero-tag">Featured this week</span>
+          <h1>Kingdom of Ash</h1>
+          <p>Build a dynasty from the embers of a fallen empire. The season 4 update adds co-op sieges, a reworked diplomacy system and 30 new provinces.</p>
+          <div class="btn-row" style="margin-top:22px">
+            <button class="btn btn-primary btn-lg btn-save" type="button"
+              data-app-id="kingdom-of-ash" data-app-name="Kingdom of Ash"
+              data-label-on="In library" data-label-off="Install">Install</button>
+            <a class="btn btn-ghost btn-lg" href="kingdom-of-ash.html">More details</a>
+          </div>
+          <div class="hero-meta">
+            <span>&#9733; 4.8 &middot; 1.2M reviews</span>
+            <span>Strategy</span>
+            <span>Free &middot; offers in-app purchases</span>
+          </div>
+        </div>
+        <div class="tile tile-xl art-1" aria-hidden="true">K</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== All titles ===== -->
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Everything in the store</h2>
+        <a href="games.html">Browse games</a>
+      </div>
+      <p class="section-sub">Six titles, each with its own page.</p>
+      <div class="grid g6">
+
+        <a class="app-card" href="kingdom-of-ash.html">
+          <div class="tile tile-md art-1" aria-hidden="true">K</div>
+          <div class="app-name">Kingdom of Ash</div>
+          <div class="app-cat">Strategy</div>
+          <div class="app-rate">4.8 &#9733; &middot; Free</div>
+        </a>
+
+        <a class="app-card" href="nebula-raiders.html">
+          <div class="tile tile-md art-2" aria-hidden="true">N</div>
+          <div class="app-name">Nebula Raiders</div>
+          <div class="app-cat">Action</div>
+          <div class="app-rate">4.6 &#9733; &middot; Free</div>
+        </a>
+
+        <a class="app-card" href="mindfold.html">
+          <div class="tile tile-md art-4" aria-hidden="true">M</div>
+          <div class="app-name">Mindfold</div>
+          <div class="app-cat">Puzzle</div>
+          <div class="app-rate">4.7 &#9733; &middot; Free</div>
+        </a>
+
+        <a class="app-card" href="pocket-racer.html">
+          <div class="tile tile-md art-5" aria-hidden="true">P</div>
+          <div class="app-name">Pocket Racer 9</div>
+          <div class="app-cat">Racing</div>
+          <div class="app-rate">4.3 &#9733; &middot; Free</div>
+        </a>
+
+        <a class="app-card" href="notewell.html">
+          <div class="tile tile-md art-3" aria-hidden="true">N</div>
+          <div class="app-name">NoteWell</div>
+          <div class="app-cat">Productivity</div>
+          <div class="app-rate">4.8 &#9733; &middot; Free</div>
+        </a>
+
+        <a class="app-card" href="pulsefit.html">
+          <div class="tile tile-md art-10" aria-hidden="true">P</div>
+          <div class="app-name">PulseFit</div>
+          <div class="app-cat">Health</div>
+          <div class="app-rate">4.4 &#9733; &middot; Free</div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Top charts preview ===== -->
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Top charts</h2>
+        <a href="charts.html">See all</a>
+      </div>
+      <div class="grid g2 cards-2up">
+        <div>
+          <h3 class="dim small" style="text-transform:uppercase;letter-spacing:.07em">Top free games</h3>
+          <div class="rank-list">
+            <a class="rank-row" href="kingdom-of-ash.html">
+              <div class="rank-num">1</div>
+              <div class="tile tile-sm art-1" aria-hidden="true">K</div>
+              <div class="rank-info"><h3>Kingdom of Ash</h3><div class="meta">Ember Forge &middot; Strategy</div></div>
+              <div class="dim small">4.8 &#9733;</div>
+            </a>
+            <a class="rank-row" href="pocket-racer.html">
+              <div class="rank-num">2</div>
+              <div class="tile tile-sm art-5" aria-hidden="true">P</div>
+              <div class="rank-info"><h3>Pocket Racer 9</h3><div class="meta">Octane Lab &middot; Racing</div></div>
+              <div class="dim small">4.3 &#9733;</div>
+            </a>
+            <a class="rank-row" href="nebula-raiders.html">
+              <div class="rank-num">3</div>
+              <div class="tile tile-sm art-2" aria-hidden="true">N</div>
+              <div class="rank-info"><h3>Nebula Raiders</h3><div class="meta">Vantara Studios &middot; Action</div></div>
+              <div class="dim small">4.6 &#9733;</div>
+            </a>
+            <a class="rank-row" href="mindfold.html">
+              <div class="rank-num">4</div>
+              <div class="tile tile-sm art-4" aria-hidden="true">M</div>
+              <div class="rank-info"><h3>Mindfold</h3><div class="meta">Quietbyte &middot; Puzzle</div></div>
+              <div class="dim small">4.7 &#9733;</div>
+            </a>
+          </div>
+        </div>
+        <div>
+          <h3 class="dim small" style="text-transform:uppercase;letter-spacing:.07em">Top free apps</h3>
+          <div class="rank-list">
+            <a class="rank-row" href="pulsefit.html">
+              <div class="rank-num">1</div>
+              <div class="tile tile-sm art-10" aria-hidden="true">P</div>
+              <div class="rank-info"><h3>PulseFit</h3><div class="meta">Vital Works &middot; Health</div></div>
+              <div class="dim small">4.4 &#9733;</div>
+            </a>
+            <a class="rank-row" href="notewell.html">
+              <div class="rank-num">2</div>
+              <div class="tile tile-sm art-3" aria-hidden="true">N</div>
+              <div class="rank-info"><h3>NoteWell</h3><div class="meta">Paperless Inc &middot; Productivity</div></div>
+              <div class="dim small">4.8 &#9733;</div>
+            </a>
+          </div>
+          <div class="card" style="margin-top:14px">
+            <h3 class="mt0">Only two apps?</h3>
+            <p class="small mb0">This demo keeps the catalogue deliberately small so every title can have its own page rather than sharing one with a query parameter.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Editors' choice ===== -->
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Editors&rsquo; choice</h2>
+        <a href="categories.html">See collections</a>
+      </div>
+      <div class="grid g3">
+        <article class="card">
+          <div class="btn-row" style="justify-content:space-between;align-items:flex-start">
+            <div class="tile tile-md art-4" aria-hidden="true">M</div>
+            <span class="badge badge-accent">Game of the month</span>
+          </div>
+          <h3 style="margin-top:14px"><a href="mindfold.html">Mindfold</a></h3>
+          <p class="small">120 origami-style spatial puzzles. No timer, no score, no streak to lose &mdash; just one more fold before bed.</p>
+          <div class="btn-row">
+            <button class="btn btn-ghost btn-sm btn-save" type="button" data-app-id="mindfold" data-app-name="Mindfold" data-label-on="In library" data-label-off="Install">Install</button>
+            <span class="dim small">Free</span>
+          </div>
+        </article>
+        <article class="card">
+          <div class="btn-row" style="justify-content:space-between;align-items:flex-start">
+            <div class="tile tile-md art-3" aria-hidden="true">N</div>
+            <span class="badge badge-new">Editor pick</span>
+          </div>
+          <h3 style="margin-top:14px"><a href="notewell.html">NoteWell</a></h3>
+          <p class="small">Notes that sync without an account, export to plain markdown and open in under a second on a five-year-old phone.</p>
+          <div class="btn-row">
+            <button class="btn btn-ghost btn-sm btn-save" type="button" data-app-id="notewell" data-app-name="NoteWell" data-label-on="In library" data-label-off="Install">Install</button>
+            <span class="dim small">Free</span>
+          </div>
+        </article>
+        <article class="card">
+          <div class="btn-row" style="justify-content:space-between;align-items:flex-start">
+            <div class="tile tile-md art-2" aria-hidden="true">N</div>
+            <span class="badge badge-hot">Trending</span>
+          </div>
+          <h3 style="margin-top:14px"><a href="nebula-raiders.html">Nebula Raiders</a></h3>
+          <p class="small">A twin-stick shooter with short runs, generous checkpoints and a blockade that learns how you play.</p>
+          <div class="btn-row">
+            <button class="btn btn-ghost btn-sm btn-save" type="button" data-app-id="nebula-raiders" data-app-name="Nebula Raiders" data-label-on="In library" data-label-off="Install">Install</button>
+            <span class="dim small">Free</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Categories ===== -->
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Browse by category</h2>
+        <a href="categories.html">All categories</a>
+      </div>
+      <div class="grid g3">
+        <a class="cat-tile" href="games.html"><span class="cat-emoji">&#9876;</span><span><strong>Strategy</strong><span>1 title</span></span></a>
+        <a class="cat-tile" href="games.html"><span class="cat-emoji">&#127918;</span><span><strong>Action</strong><span>1 title</span></span></a>
+        <a class="cat-tile" href="games.html"><span class="cat-emoji">&#129513;</span><span><strong>Puzzle</strong><span>1 title</span></span></a>
+        <a class="cat-tile" href="games.html"><span class="cat-emoji">&#127950;</span><span><strong>Racing</strong><span>1 title</span></span></a>
+        <a class="cat-tile" href="apps.html"><span class="cat-emoji">&#128221;</span><span><strong>Productivity</strong><span>1 title</span></span></a>
+        <a class="cat-tile" href="apps.html"><span class="cat-emoji">&#128170;</span><span><strong>Health</strong><span>1 title</span></span></a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-col footer-about">
+        <a class="logo" href="index.html" style="margin-bottom:12px"><span class="logo-mark" aria-hidden="true"></span> <span>PlayVerse</span></a>
+        <p class="dim">A demonstration storefront. Every title, studio, rating and review on this site is fictional and invented for the demo.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Browse</h4>
+        <ul>
+          <li><a href="games.html">Games</a></li>
+          <li><a href="apps.html">Apps</a></li>
+          <li><a href="charts.html">Top charts</a></li>
+          <li><a href="categories.html">Categories</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Titles</h4>
+        <ul>
+          <li><a href="kingdom-of-ash.html">Kingdom of Ash</a></li>
+          <li><a href="nebula-raiders.html">Nebula Raiders</a></li>
+          <li><a href="mindfold.html">Mindfold</a></li>
+          <li><a href="pocket-racer.html">Pocket Racer 9</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Help</h4>
+        <ul>
+          <li><a href="library.html">My library</a></li>
+          <li><a href="support.html">Help centre</a></li>
+          <li><a href="support.html#refunds">Refund policy</a></li>
+          <li><a href="support.html#contact">Contact us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span data-year>2026</span> PlayVerse &middot; Demo storefront, not a real shop.</span>
+      <span>No payments, no accounts, no tracking.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/catalog.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

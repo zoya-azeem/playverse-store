@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Server Directory — MCP Hub</title>
+<meta name="description" content="A searchable, filterable directory of MCP servers across developer tools, data stores, web access, productivity apps and cloud platforms.">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap nav">
+    <a class="brand" href="index.html"><span class="brand-mark">M</span> MCP Hub</a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-links">&#9776;</button>
+    <nav class="nav-links" id="nav-links" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="what-is-mcp.html">What is MCP</a>
+      <a href="architecture.html">Architecture</a>
+      <a href="servers.html">Servers</a>
+      <a href="quickstart.html">Quickstart</a>
+      <a href="tutorials.html">Tutorials</a>
+      <a href="blog.html">Blog</a>
+      <a href="faq.html">FAQ</a>
+      <a class="btn btn-primary btn-sm nav-cta" href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="page-head">
+    <div class="wrap">
+      <div class="breadcrumb"><a href="index.html">Home</a><span>/</span>Servers</div>
+      <h1>Server directory</h1>
+      <p>A curated sample of the kinds of servers the ecosystem has converged on. Search or filter by category to see what is available before you write anything yourself.</p>
+    </div>
+  </div>
+
+  <section>
+    <div class="wrap">
+
+      <div class="filters">
+        <input class="search-input" type="search" id="server-search" placeholder="Search servers, e.g. postgres, browser, calendar..." aria-label="Search servers">
+        <button class="chip active" type="button" data-filter="all" aria-pressed="true">All</button>
+        <button class="chip" type="button" data-filter="dev" aria-pressed="false">Developer</button>
+        <button class="chip" type="button" data-filter="data" aria-pressed="false">Data</button>
+        <button class="chip" type="button" data-filter="web" aria-pressed="false">Web</button>
+        <button class="chip" type="button" data-filter="productivity" aria-pressed="false">Productivity</button>
+        <button class="chip" type="button" data-filter="cloud" aria-pressed="false">Cloud</button>
+        <button class="chip" type="button" data-filter="utility" aria-pressed="false">Utility</button>
+      </div>
+
+      <p class="result-count" id="server-count" role="status">Showing all 18 servers</p>
+
+      <div class="grid g3" id="server-grid">
+
+        <!-- Developer -->
+        <article class="card card-hover server-card" data-category="dev" data-keywords="files directory local disk read write">
+          <div class="card-top"><h3>Filesystem</h3><span class="badge badge-green">Reference</span></div>
+          <p>Read, write and list files inside directories you explicitly allow. Path traversal is blocked at the server, so the model cannot wander outside the roots you grant.</p>
+          <div class="server-meta"><span>stdio</span><span>Tools + Resources</span></div>
+        </article>
+
+        <article class="card card-hover server-card" data-category="dev" data-keywords="git version control commits diff history repository">
+          <div class="card-top"><h3>Git</h3><span class="badge badge-green">Reference</span></div>
+          <p>Inspect a local repository: read commit history, show diffs, search log messages and check status without the agent shelling out to the CLI.</p>
+          <div class="server-meta"><span>stdio</span><span>Tools</span></div>
+        </article>
+
+        <article class="card card-hover server-card" data-category="dev" data-keywords="github issues pull requests pr code review repos">
+          <div class="card-top"><h3>GitHub</h3><span class="badge badge-accent">Vendor</span></div>
+          <p>Work with issues, pull requests, reviews and Actions runs. The usual starting point for an agent that files its own tickets or responds to review comments.</p>
+          <div class="server-meta"><span>HTTP + stdio</span><span>Tools</span></div>
+        </article>
+
+        <article class="card card-hover server-card" data-category="dev" data-keywords="playwright browser automation ui testing screenshots dom">
+          <div class="card-top"><h3>Playwright</h3><span class="badge badge-accent">Vendor</span></div>
+          <p>Drive a real browser: navigate, click, fill forms and read the accessibility tree. Lets an agent verify a UI change rather than assume it worked.</p>
+          <div class="server-meta"><span>stdio</span><span>Tools</span></div>
+        </article>
+
+        <article class="card card-hover server-card" data-category="dev" data-keywords="sentry errors exceptions stack traces monitoring observability">
+          <div class="card-top"><h3>Sentry</h3><span class="badge badge-accent">Vendor</span></div>
+          <p>Pull issue details and stack traces into the conversation so the model debugs against the real exception instead of a pasted fragment.</p>
+          <div class="server-meta"><span>HTTP</span><span>Tools + Resources</span></div>
+        </article>
+
+        <article class="card card-hover server-card" data-category="dev" data-keywords="docker containers images compose logs">
+          <div class="card-top"><h3>Docker</h3><span class="badge">Community</span></div>
+          <p>List containers, read logs and inspect images. Useful for an agent triaging a local stack, and best run read-only unless you really mean it.</p>
+          <div class="server-meta"><span>stdio</span><span>Tools</span></div>
+        </article>
+
+        <!-- Data -->
+        <article class="card card-hover server-card" data-category="data" data-keywords="postgres postgresql sql database schema query relational">
+          <div class="card-top"><h3>PostgreSQL</h3><span class="badge">Community</span></div>
+          <p>Expose table schemas as resources and a read-only query tool. The pattern most warehouse integrations copy: let the model see the shape, then ask it questions.</p>
+          <div class="server-meta"><span>stdio</span><span>Tools + Resources</span></div>
+        </article>
+
+        <article class="card card-hover server-card" data-category="data" data-keywords="sqlite local database embedded sql file">
+          <div class="card-top"><h3>SQLite</h3><span class="badge">Community</span></div>
+          <p>Query and inspect a local <code>.db</code> file. The cheapest way to give an agent structured data with no infrastructure at all.</p>
+          <div class="server-meta"><span>stdio</span><span>Tools + Resources</span></div>
+        </article>
+
+        <article class="card card-hover server-card" data-category="data" data-keywords="memory knowledge graph entities relations persistence recall">
+          <div class="card-top"><h3>Memory</h3><span class="badge badge-green">Reference</span></div>
+          <p>A knowledge graph of entities and relations that survives between sessions, so facts learned in one conversation are available in the next.</p>
+          <div class="server-meta"><span>stdio</span><span>Tools</span></div>
+        </article>
+
+        <article class="card card-hover server-card" data-category="data" data-keywords="vector embeddings semantic search rag retrieval index">
+          <div class="card-top"><h3>Vector search</h3><span class="badge">Community</span></div>
+          <p>Semantic retrieval over an embedded corpus. Wrappers exist for most popular vector stores and they all expose roughly the same search tool.</p>
+          <div class="server-meta"><span>stdio + HTTP</span><span>Tools</span></div>
+        </article>
+
+        <!-- Web -->
+        <article class="card card-hover server-card" data-category="web" data-keywords="fetch url http page markdown scrape read website">
+          <div class="card-top"><h3>Fetch</h3><span class="badge badge-green">Reference</span></div>
+          <p>Retrieve a URL and convert the HTML into clean markdown, with chunking so a long page does not blow the context window in one go.</p>
+          <div class="server-meta"><span>stdio</span><span>Tools</span></div>
+        </article>
+
+        <article class="card card-hover server-card" data-category="web" data-keywords="search engine web results query serp">
+          <div class="card-top"><h3>Web search</h3><span class="badge">Community</span></div>
+          <p>Query a search API and return ranked results with snippets. Several providers ship a server; the tool surface is nearly identical across them.</p>
+          <div class="server-meta"><span>HTTP</span><span>Tools</span></div>
+        </article>
+
+        <article class="card card-hover server-card" data-category="web" data-keywords="crawl scrape site extract structured data spider">
+          <div class="card-top"><h3>Site crawler</h3><span class="badge">Community</span></div>
+          <p>Walk a site to a given depth and extract structured content. Watch your rate limits, and respect the target's robots policy.</p>
+          <div class="server-meta"><span>HTTP</span><span>Tools</span></div>
+        </article>
+
+        <!-- Productivity -->
+        <article class="card card-hover server-card" data-category="productivity" data-keywords="slack messages channels chat team notify">
+          <div class="card-top"><h3>Slack</h3><span class="badge">Community</span></div>
+          <p>Read channel history and post messages. Keep posting behind an explicit approval — an agent that can message your whole team is a loud mistake.</p>
+          <div class="server-meta"><span>HTTP</span><span>Tools</span></div>
+        </article>
+
+        <article class="card card-hover server-card" data-category="productivity" data-keywords="notion pages databases wiki docs notes">
+          <div class="card-top"><h3>Notion</h3><span class="badge badge-accent">Vendor</span></div>
+          <p>Search the workspace, read pages as resources and create or update entries. A common bridge between an assistant and a team's written knowledge.</p>
+          <div class="server-meta"><span>HTTP</span><span>Tools + Resources</span></div>
+        </article>
+
+        <article class="card card-hover server-card" data-category="productivity" data-keywords="calendar events meetings schedule availability">
+          <div class="card-top"><h3>Calendar</h3><span class="badge">Community</span></div>
+          <p>List events, check availability and draft invitations. Creating events is the kind of side effect that belongs behind a confirmation step.</p>
+          <div class="server-meta"><span>HTTP</span><span>Tools</span></div>
+        </article>
+
+        <!-- Cloud -->
+        <article class="card card-hover server-card" data-category="cloud" data-keywords="aws s3 lambda ec2 cloudwatch infrastructure amazon">
+          <div class="card-top"><h3>AWS</h3><span class="badge badge-accent">Vendor</span></div>
+          <p>Inspect resources, read CloudWatch logs and query cost data. Attach a read-only IAM role unless you have a very specific reason not to.</p>
+          <div class="server-meta"><span>HTTP + stdio</span><span>Tools + Resources</span></div>
+        </article>
+
+        <!-- Utility -->
+        <article class="card card-hover server-card" data-category="utility" data-keywords="time timezone clock date convert now">
+          <div class="card-top"><h3>Time</h3><span class="badge badge-green">Reference</span></div>
+          <p>Current time and timezone conversion. Trivial but genuinely necessary: a model has no reliable idea what time it is without being told.</p>
+          <div class="server-meta"><span>stdio</span><span>Tools</span></div>
+        </article>
+
+      </div>
+
+      <div class="empty-state" id="server-empty" style="display:none">
+        <h3>No servers match that</h3>
+        <p class="mb0">Try a broader term, or clear the category filter.</p>
+      </div>
+
+      <div class="callout callout-warn mt3">
+        <p><strong>Before you install anything.</strong> A stdio server runs as a local process with
+        your own user's privileges. Read the source, pin an exact version, and prefer servers whose
+        code you can inspect. Treat an MCP server the way you would treat any other dependency you
+        are about to give filesystem access to.</p>
+      </div>
+
+      <div class="panel mt3">
+        <h2 class="mt0">Nothing here fits?</h2>
+        <p>Then write your own — it is a smaller job than it looks. A useful server is often a
+        single file: declare two or three tools, wrap the API call you already know how to make,
+        and point your client at it.</p>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="quickstart.html#build">Build a server &rarr;</a>
+          <a class="btn btn-ghost" href="tutorials.html">Follow a tutorial</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-col footer-about">
+        <a class="brand" href="index.html" style="margin-bottom:14px"><span class="brand-mark">M</span> MCP Hub</a>
+        <p class="dim">An independent, community-written guide to the Model Context Protocol. Not affiliated with any protocol maintainer or vendor.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="what-is-mcp.html">What is MCP</a></li>
+          <li><a href="architecture.html">Architecture</a></li>
+          <li><a href="quickstart.html">Quickstart</a></li>
+          <li><a href="tutorials.html">Tutorials</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="servers.html">Server directory</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Reference</h4>
+        <ul>
+          <li><a href="architecture.html#transports">Transports</a></li>
+          <li><a href="architecture.html#messages">Message types</a></li>
+          <li><a href="what-is-mcp.html#glossary">Glossary</a></li>
+          <li><a href="quickstart.html#troubleshooting">Troubleshooting</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span data-year>2026</span> MCP Hub &middot; Educational resource.</span>
+      <span>Static site &middot; no trackers, no cookies.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My library — PlayVerse</title>
+<meta name="description" content="Everything you have installed from PlayVerse, stored locally in this browser.">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-main">
+    <a class="logo" href="index.html"><span class="logo-mark" aria-hidden="true"></span> <span>PlayVerse</span></a>
+    <form class="searchbar" id="top-search-form" action="games.html" method="get" role="search">
+      <input type="search" name="q" placeholder="Search games, apps and studios" aria-label="Search the store">
+    </form>
+    <div class="topbar-actions">
+      <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch between light and dark mode" title="Switch theme">&#9790;</button>
+      <a class="icon-btn optional" href="support.html" aria-label="Help and support" title="Help">?</a>
+      <div class="avatar" aria-hidden="true">PV</div>
+    </div>
+  </div>
+  <div class="wrap">
+    <nav class="topbar-tabs" aria-label="Store sections">
+      <a href="index.html">For you</a>
+      <a href="games.html">Games</a>
+      <a href="apps.html">Apps</a>
+      <a href="charts.html">Top charts</a>
+      <a href="categories.html">Categories</a>
+      <a href="library.html">Library <span class="badge badge-accent" data-lib-count style="display:none"></span></a>
+      <a href="support.html">Support</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="wrap page-head">
+    <div class="breadcrumb"><a href="index.html">Store</a><span>/</span>Library</div>
+    <h1>My library</h1>
+    <p class="lead">Everything you have installed from this demo store.</p>
+  </div>
+
+  <section style="padding-top:20px">
+    <div class="wrap">
+
+      <div class="toolbar">
+        <p class="result-count mb0" id="library-summary" role="status">Your library is empty</p>
+        <button class="btn btn-ghost btn-sm" type="button" id="clear-library">Clear library</button>
+      </div>
+
+      <div id="library-root">
+        <!-- Rendered from localStorage. Fallback below is shown when JS is off. -->
+        <noscript>
+          <div class="empty-state">
+            <div class="big">&#128274;</div>
+            <h3>JavaScript is required here</h3>
+            <p class="mb0">Your library is stored in this browser, so this page needs JavaScript to read it. Every other page on the store works without it.</p>
+          </div>
+        </noscript>
+      </div>
+
+      <div class="callout mt3">
+        <p><strong>Where this is kept.</strong> Your library lives in this browser&rsquo;s local
+        storage on this device only. Nothing is uploaded, there is no account, and clearing your
+        browser data will empty it. Nothing is actually downloaded or installed either &mdash; this
+        is a demonstration storefront.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== Recommendations ===== -->
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Popular right now</h2>
+        <a href="charts.html">Top charts</a>
+      </div>
+      <div class="shelf">
+        <a class="app-card" href="kingdom-of-ash.html">
+          <div class="tile tile-md art-1" aria-hidden="true">K</div>
+          <div class="app-name">Kingdom of Ash</div><div class="app-rate">4.8 &#9733;</div>
+        </a>
+        <a class="app-card" href="mindfold.html">
+          <div class="tile tile-md art-4" aria-hidden="true">M</div>
+          <div class="app-name">Mindfold</div><div class="app-rate">4.7 &#9733;</div>
+        </a>
+        <a class="app-card" href="notewell.html">
+          <div class="tile tile-md art-3" aria-hidden="true">N</div>
+          <div class="app-name">NoteWell</div><div class="app-rate">4.8 &#9733;</div>
+        </a>
+        <a class="app-card" href="nebula-raiders.html">
+          <div class="tile tile-md art-2" aria-hidden="true">N</div>
+          <div class="app-name">Nebula Raiders</div><div class="app-rate">4.6 &#9733;</div>
+        </a>
+        <a class="app-card" href="pocket-racer.html">
+          <div class="tile tile-md art-5" aria-hidden="true">P</div>
+          <div class="app-name">Pocket Racer 9</div><div class="app-rate">4.3 &#9733;</div>
+        </a>
+        <a class="app-card" href="pulsefit.html">
+          <div class="tile tile-md art-10" aria-hidden="true">P</div>
+          <div class="app-name">PulseFit</div><div class="app-rate">4.4 &#9733;</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Library tips ===== -->
+  <section>
+    <div class="wrap">
+      <div class="grid g3">
+        <div class="card">
+          <h3 class="mt0">Updates</h3>
+          <p class="small mb0">In a real store this is where pending updates would queue up, with a note of what changed and how big the download is before it starts.</p>
+        </div>
+        <div class="card">
+          <h3 class="mt0">Across devices</h3>
+          <p class="small mb0">A real library follows your account. This one does not &mdash; it is per browser, which is also why it needs no sign-up to try.</p>
+        </div>
+        <div class="card">
+          <h3 class="mt0">Refunds</h3>
+          <p class="small mb0">Paid titles would be refundable for 48 hours from purchase. <a href="support.html#refunds">Read the policy</a>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-col footer-about">
+        <a class="logo" href="index.html" style="margin-bottom:12px"><span class="logo-mark" aria-hidden="true"></span> <span>PlayVerse</span></a>
+        <p class="dim">A demonstration storefront. Every title, studio, rating and review on this site is fictional and invented for the demo.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Browse</h4>
+        <ul>
+          <li><a href="games.html">Games</a></li>
+          <li><a href="apps.html">Apps</a></li>
+          <li><a href="charts.html">Top charts</a></li>
+          <li><a href="categories.html">Categories</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Account</h4>
+        <ul>
+          <li><a href="library.html">My library</a></li>
+          <li><a href="news.html">News &amp; updates</a></li>
+          <li><a href="support.html">Help centre</a></li>
+          <li><a href="support.html#contact">Contact us</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Developers</h4>
+        <ul>
+          <li><a href="support.html#publish">Publish a title</a></li>
+          <li><a href="support.html#policy">Content policy</a></li>
+          <li><a href="support.html#refunds">Refund policy</a></li>
+          <li><a href="news.html">Store changelog</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span data-year>2026</span> PlayVerse &middot; Demo storefront, not a real shop.</span>
+      <span>No payments, no accounts, no tracking.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/catalog.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

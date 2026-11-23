@@ -1,0 +1,16 @@
+# Node / npm (this project has no dependencies, but npx leaves these behind)
+node_modules/
+package-lock.json
+npm-debug.log*
+*.log
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# OS
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store

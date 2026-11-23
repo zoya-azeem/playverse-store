@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Top charts — PlayVerse</title>
+<meta name="description" content="The PlayVerse top charts: top games, top apps and trending now. Every row opens that title's own page.">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-main">
+    <a class="logo" href="index.html"><span class="logo-mark" aria-hidden="true"></span> <span>PlayVerse</span></a>
+    <form class="searchbar" id="top-search-form" role="search" onsubmit="return false">
+      <input type="search" id="top-search" placeholder="Search games, apps and studios" aria-label="Search the store">
+    </form>
+    <div class="topbar-actions">
+      <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch between light and dark mode" title="Switch theme">&#9790;</button>
+      <a class="icon-btn optional" href="support.html" aria-label="Help and support" title="Help">?</a>
+      <div class="avatar" aria-hidden="true">PV</div>
+    </div>
+  </div>
+  <div class="wrap">
+    <nav class="topbar-tabs" aria-label="Store sections">
+      <a href="index.html">For you</a>
+      <a href="games.html">Games</a>
+      <a href="apps.html">Apps</a>
+      <a href="charts.html">Top charts</a>
+      <a href="categories.html">Categories</a>
+      <a href="library.html">Library <span class="badge badge-accent" data-lib-count style="display:none"></span></a>
+      <a href="support.html">Support</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="wrap page-head">
+    <div class="breadcrumb"><a href="index.html">Store</a><span>/</span>Top charts</div>
+    <h1>Top charts</h1>
+    <p class="lead">Ranked by installs and engagement over the last seven days. Every row opens that title's own page.</p>
+  </div>
+
+  <section style="padding-top:20px">
+    <div class="wrap">
+
+      <div class="chips" style="margin-bottom:26px">
+        <button class="chip active" type="button" data-chart-tab="games" aria-pressed="true">Top games</button>
+        <button class="chip" type="button" data-chart-tab="apps" aria-pressed="false">Top apps</button>
+        <button class="chip" type="button" data-chart-tab="trending" aria-pressed="false">Trending now</button>
+      </div>
+
+      <!-- ===== Top games ===== -->
+      <div data-chart-panel="games">
+        <p class="result-count">Top games &middot; week of 17&ndash;23 November</p>
+        <div class="rank-list">
+
+          <a class="rank-row" href="kingdom-of-ash.html">
+            <div class="rank-num">1</div>
+            <div class="tile tile-sm art-1" aria-hidden="true">K</div>
+            <div class="rank-info"><h3>Kingdom of Ash</h3><div class="meta">Ember Forge &middot; Strategy &middot; 4.8 &#9733;</div></div>
+            <span class="btn btn-ghost btn-sm">Free</span>
+          </a>
+
+          <a class="rank-row" href="nebula-raiders.html">
+            <div class="rank-num">2</div>
+            <div class="tile tile-sm art-2" aria-hidden="true">N</div>
+            <div class="rank-info"><h3>Nebula Raiders</h3><div class="meta">Vantara Studios &middot; Action &middot; 4.6 &#9733;</div></div>
+            <span class="btn btn-ghost btn-sm">Free</span>
+          </a>
+
+          <a class="rank-row" href="pocket-racer.html">
+            <div class="rank-num">3</div>
+            <div class="tile tile-sm art-5" aria-hidden="true">P</div>
+            <div class="rank-info"><h3>Pocket Racer 9</h3><div class="meta">Octane Lab &middot; Racing &middot; 4.3 &#9733;</div></div>
+            <span class="btn btn-ghost btn-sm">Free</span>
+          </a>
+
+          <a class="rank-row" href="mindfold.html">
+            <div class="rank-num">4</div>
+            <div class="tile tile-sm art-4" aria-hidden="true">M</div>
+            <div class="rank-info"><h3>Mindfold</h3><div class="meta">Quietbyte &middot; Puzzle &middot; 4.7 &#9733;</div></div>
+            <span class="btn btn-ghost btn-sm">Free</span>
+          </a>
+
+        </div>
+      </div>
+
+      <!-- ===== Top apps ===== -->
+      <div data-chart-panel="apps" class="hide">
+        <p class="result-count">Top apps &middot; week of 17&ndash;23 November</p>
+        <div class="rank-list">
+
+          <a class="rank-row" href="pulsefit.html">
+            <div class="rank-num">1</div>
+            <div class="tile tile-sm art-10" aria-hidden="true">P</div>
+            <div class="rank-info"><h3>PulseFit</h3><div class="meta">Vital Works &middot; Health &middot; 4.4 &#9733;</div></div>
+            <span class="btn btn-ghost btn-sm">Free</span>
+          </a>
+
+          <a class="rank-row" href="notewell.html">
+            <div class="rank-num">2</div>
+            <div class="tile tile-sm art-3" aria-hidden="true">N</div>
+            <div class="rank-info"><h3>NoteWell</h3><div class="meta">Paperless Inc &middot; Productivity &middot; 4.8 &#9733;</div></div>
+            <span class="btn btn-ghost btn-sm">Free</span>
+          </a>
+
+        </div>
+      </div>
+
+      <!-- ===== Trending ===== -->
+      <div data-chart-panel="trending" class="hide">
+        <p class="result-count">Trending now &middot; biggest climb in installs over 48 hours</p>
+        <div class="rank-list">
+
+          <a class="rank-row" href="mindfold.html">
+            <div class="rank-num">1</div>
+            <div class="tile tile-sm art-4" aria-hidden="true">M</div>
+            <div class="rank-info"><h3>Mindfold</h3><div class="meta">Quietbyte &middot; Puzzle &middot; &#9650; 214%</div></div>
+            <span class="badge badge-hot">Rising</span>
+          </a>
+
+          <a class="rank-row" href="pocket-racer.html">
+            <div class="rank-num">2</div>
+            <div class="tile tile-sm art-5" aria-hidden="true">P</div>
+            <div class="rank-info"><h3>Pocket Racer 9</h3><div class="meta">Octane Lab &middot; Racing &middot; &#9650; 141%</div></div>
+            <span class="badge badge-new">New</span>
+          </a>
+
+          <a class="rank-row" href="notewell.html">
+            <div class="rank-num">3</div>
+            <div class="tile tile-sm art-3" aria-hidden="true">N</div>
+            <div class="rank-info"><h3>NoteWell</h3><div class="meta">Paperless Inc &middot; Productivity &middot; &#9650; 96%</div></div>
+            <span class="badge">Steady</span>
+          </a>
+
+        </div>
+      </div>
+
+      <div class="callout mt3">
+        <p><strong>How ranking works.</strong> Position combines seven-day install volume,
+        uninstall rate, session length and rating velocity. Paid placement is never a factor &mdash;
+        there is no way to buy a chart position on PlayVerse.</p>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-col footer-about">
+        <a class="logo" href="index.html" style="margin-bottom:12px"><span class="logo-mark" aria-hidden="true"></span> <span>PlayVerse</span></a>
+        <p class="dim">A demonstration storefront. Every title, studio, rating and review on this site is fictional and invented for the demo.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Browse</h4>
+        <ul>
+          <li><a href="games.html">Games</a></li>
+          <li><a href="apps.html">Apps</a></li>
+          <li><a href="charts.html">Top charts</a></li>
+          <li><a href="categories.html">Categories</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Account</h4>
+        <ul>
+          <li><a href="library.html">My library</a></li>
+          <li><a href="news.html">News &amp; updates</a></li>
+          <li><a href="support.html">Help centre</a></li>
+          <li><a href="support.html#contact">Contact us</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Titles</h4>
+        <ul>
+          <li><a href="kingdom-of-ash.html">Kingdom of Ash</a></li>
+          <li><a href="nebula-raiders.html">Nebula Raiders</a></li>
+          <li><a href="mindfold.html">Mindfold</a></li>
+          <li><a href="pocket-racer.html">Pocket Racer 9</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span data-year>2026</span> PlayVerse &middot; Demo storefront, not a real shop.</span>
+      <span>No payments, no accounts, no tracking.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/catalog.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

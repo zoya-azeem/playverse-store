@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Field Notes — MCP Hub</title>
+<meta name="description" content="Short practical notes on building with the Model Context Protocol: tool design, context budgets, security mistakes and deployment lessons.">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap nav">
+    <a class="brand" href="index.html"><span class="brand-mark">M</span> MCP Hub</a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-links">&#9776;</button>
+    <nav class="nav-links" id="nav-links" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="what-is-mcp.html">What is MCP</a>
+      <a href="architecture.html">Architecture</a>
+      <a href="servers.html">Servers</a>
+      <a href="quickstart.html">Quickstart</a>
+      <a href="tutorials.html">Tutorials</a>
+      <a href="blog.html">Blog</a>
+      <a href="faq.html">FAQ</a>
+      <a class="btn btn-primary btn-sm nav-cta" href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="page-head">
+    <div class="wrap">
+      <div class="breadcrumb"><a href="index.html">Home</a><span>/</span>Blog</div>
+      <h1>Field notes</h1>
+      <p>Short, self-contained notes on building with MCP — the kind of thing you learn on the third attempt rather than the first. Editorial content written for this site.</p>
+    </div>
+  </div>
+
+  <section>
+    <div class="wrap wrap-narrow">
+
+      <div class="post-list">
+
+        <article class="post-item">
+          <div class="post-date">14 Nov 2026</div>
+          <div>
+            <div class="tag-row" style="margin-bottom:10px"><span class="badge badge-accent">Tool design</span></div>
+            <h3>Your tool descriptions are prompts, so write them like prompts</h3>
+            <p>
+              The model never sees your implementation. It sees a name, a sentence or two, and a
+              JSON Schema — and from that it has to decide whether your tool is the right move
+              right now. <code>search</code> with the description "searches things" will lose
+              every time to <code>search_tickets</code> with "find support tickets by customer
+              email, status or date range; use this before answering any question about a
+              customer's history".
+            </p>
+            <p class="mb0">
+              Three habits that pay: name the tool after the domain object it touches, state
+              <em>when</em> to use it rather than only what it does, and put an example value in
+              every schema field description. Then test the rewrite — ask the model the question a
+              user would ask and see whether it reaches for the right thing.
+            </p>
+          </div>
+        </article>
+
+        <article class="post-item">
+          <div class="post-date">02 Nov 2026</div>
+          <div>
+            <div class="tag-row" style="margin-bottom:10px"><span class="badge badge-amber">Context</span></div>
+            <h3>Tool output is a budget, not a dump</h3>
+            <p>
+              The fastest way to ruin an otherwise good server is to return everything. A
+              <code>SELECT *</code> against a wide table can consume more context than the entire
+              conversation that preceded it, and the model then has less room to reason about what
+              it just received.
+            </p>
+            <p class="mb0">
+              Decide inside the tool what matters. Return the twenty relevant rows plus a total
+              count. Collapse repeated structure. Offer a <code>fields</code> argument so the
+              caller can ask for more when it genuinely needs more. A tool that returns 400 useful
+              tokens beats one that returns 40,000 tokens containing the same answer.
+            </p>
+          </div>
+        </article>
+
+        <article class="post-item">
+          <div class="post-date">21 Oct 2026</div>
+          <div>
+            <div class="tag-row" style="margin-bottom:10px"><span class="badge badge-green">Security</span></div>
+            <h3>The confused deputy is the bug to look for</h3>
+            <p>
+              In remote deployments, the recurring serious mistake is a server that accepts any
+              valid-looking bearer token and then uses its own privileged credentials to act on it.
+              That turns your server into a laundering service for authority it was never granted.
+            </p>
+            <p class="mb0">
+              The fix is unglamorous: validate that the token's audience is <em>your</em> server,
+              never forward a client token to a downstream API, and derive the user's permissions
+              from the verified identity rather than from anything in the request body. Do this
+              before you add features, not after a review tells you to.
+            </p>
+          </div>
+        </article>
+
+        <article class="post-item">
+          <div class="post-date">09 Oct 2026</div>
+          <div>
+            <div class="tag-row" style="margin-bottom:10px"><span class="badge badge-accent">Debugging</span></div>
+            <h3>Why your stdio server dies on connect</h3>
+            <p>
+              Almost always one cause: something wrote to stdout. A stray <code>print</code>, a
+              library's startup banner, a progress bar from a package manager. Over stdio, stdout
+              carries protocol frames exclusively, so a single stray line corrupts the stream and
+              the client drops the session.
+            </p>
+            <p class="mb0">
+              Route every log to stderr, and reach for the protocol's own
+              <code>logging/setLevel</code> once you need levels the host can control. If you
+              inherit a noisy dependency, redirect its handler explicitly at startup rather than
+              hoping it stays quiet.
+            </p>
+          </div>
+        </article>
+
+        <article class="post-item">
+          <div class="post-date">27 Sep 2026</div>
+          <div>
+            <div class="tag-row" style="margin-bottom:10px"><span class="badge badge-amber">Architecture</span></div>
+            <h3>Resources are underused, and it shows</h3>
+            <p>
+              Most servers ship tools only, which pushes every piece of context through a function
+              call the model has to decide to make. Resources invert that: the host attaches them,
+              so schema, configuration and reference material are present from the first turn
+              without the model spending a round trip to ask.
+            </p>
+            <p class="mb0">
+              A good rule: if the answer to "would the model want this nearly every time?" is yes,
+              make it a resource. Reserve tools for things that depend on a decision or have a side
+              effect.
+            </p>
+          </div>
+        </article>
+
+        <article class="post-item">
+          <div class="post-date">15 Sep 2026</div>
+          <div>
+            <div class="tag-row" style="margin-bottom:10px"><span class="badge badge-green">Reliability</span></div>
+            <h3>Two kinds of error, and only one is useful</h3>
+            <p>
+              A JSON-RPC error means the protocol broke — unknown method, malformed params. A tool
+              error is a normal result with <code>isError: true</code>, and that one reaches the
+              model, which can read the message and change course. Conflating them wastes the
+              agent's best recovery mechanism.
+            </p>
+            <p class="mb0">
+              So write tool errors for a reader: "No customer found with that email — try
+              search_customers by name" is actionable. "Error 500" is not. The model is the
+              audience for that string, and it will do something sensible if you let it.
+            </p>
+          </div>
+        </article>
+
+        <article class="post-item">
+          <div class="post-date">03 Sep 2026</div>
+          <div>
+            <div class="tag-row" style="margin-bottom:10px"><span class="badge badge-accent">Practice</span></div>
+            <h3>Fewer tools, better named</h3>
+            <p>
+              Thirty tools on one server is a smell. Selection accuracy degrades as the list grows,
+              especially when several names could plausibly match a request, and the model starts
+              picking the first near-miss.
+            </p>
+            <p class="mb0">
+              Consolidate variants behind one tool with an enum argument. Split genuinely different
+              domains into separate servers, which a host can enable per workspace. Then measure:
+              run twenty realistic requests and count how often the right tool was chosen first.
+            </p>
+          </div>
+        </article>
+
+        <article class="post-item">
+          <div class="post-date">22 Aug 2026</div>
+          <div>
+            <div class="tag-row" style="margin-bottom:10px"><span class="badge badge-amber">Trust</span></div>
+            <h3>Everything a server returns is untrusted input</h3>
+            <p>
+              A fetched web page, a database row, a ticket comment — any of them can contain text
+              shaped like an instruction. If your host pipes tool output straight back into the
+              model with no framing, you have built a prompt-injection channel with a nice UI on
+              top.
+            </p>
+            <p class="mb0">
+              Label tool results as data in the surrounding context, keep destructive operations
+              behind explicit human approval, and never let one tool's output silently authorise
+              another tool's call. Injection is the hard problem in this space and it is not
+              solved by hoping.
+            </p>
+          </div>
+        </article>
+
+      </div>
+
+      <div class="cta-band mt3">
+        <h2>Got a hard-won lesson?</h2>
+        <p>Notes from people running MCP servers in anger are the most useful thing we publish. Send yours.</p>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="contact.html">Pitch a note</a>
+          <a class="btn btn-ghost" href="tutorials.html">Browse tutorials</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-col footer-about">
+        <a class="brand" href="index.html" style="margin-bottom:14px"><span class="brand-mark">M</span> MCP Hub</a>
+        <p class="dim">An independent, community-written guide to the Model Context Protocol. Not affiliated with any protocol maintainer or vendor.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="what-is-mcp.html">What is MCP</a></li>
+          <li><a href="architecture.html">Architecture</a></li>
+          <li><a href="quickstart.html">Quickstart</a></li>
+          <li><a href="tutorials.html">Tutorials</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="servers.html">Server directory</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Reference</h4>
+        <ul>
+          <li><a href="architecture.html#transports">Transports</a></li>
+          <li><a href="architecture.html#messages">Message types</a></li>
+          <li><a href="what-is-mcp.html#glossary">Glossary</a></li>
+          <li><a href="quickstart.html#troubleshooting">Troubleshooting</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span data-year>2026</span> MCP Hub &middot; Educational resource.</span>
+      <span>Static site &middot; no trackers, no cookies.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

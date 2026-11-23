@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Games — PlayVerse</title>
+<meta name="description" content="Browse the games on PlayVerse. Filter by genre, sort, and open any title's own page.">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-main">
+    <a class="logo" href="index.html"><span class="logo-mark" aria-hidden="true"></span> <span>PlayVerse</span></a>
+    <form class="searchbar" id="top-search-form" role="search" onsubmit="return false">
+      <input type="search" id="top-search" placeholder="Search games, apps and studios" aria-label="Search the store">
+    </form>
+    <div class="topbar-actions">
+      <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch between light and dark mode" title="Switch theme">&#9790;</button>
+      <a class="icon-btn optional" href="support.html" aria-label="Help and support" title="Help">?</a>
+      <div class="avatar" aria-hidden="true">PV</div>
+    </div>
+  </div>
+  <div class="wrap">
+    <nav class="topbar-tabs" aria-label="Store sections">
+      <a href="index.html">For you</a>
+      <a href="games.html">Games</a>
+      <a href="apps.html">Apps</a>
+      <a href="charts.html">Top charts</a>
+      <a href="categories.html">Categories</a>
+      <a href="library.html">Library <span class="badge badge-accent" data-lib-count style="display:none"></span></a>
+      <a href="support.html">Support</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="wrap page-head">
+    <div class="breadcrumb"><a href="index.html">Store</a><span>/</span>Games</div>
+    <h1>Games</h1>
+    <p class="lead">Four games, four genres. Each one opens its own page &mdash; no shared template, no query string.</p>
+  </div>
+
+  <section style="padding-top:22px">
+    <div class="wrap">
+
+      <div class="toolbar">
+        <div class="chips">
+          <button class="chip active" type="button" data-filter="all" aria-pressed="true">All</button>
+          <button class="chip" type="button" data-filter="Strategy" aria-pressed="false">Strategy</button>
+          <button class="chip" type="button" data-filter="Action" aria-pressed="false">Action</button>
+          <button class="chip" type="button" data-filter="Puzzle" aria-pressed="false">Puzzle</button>
+          <button class="chip" type="button" data-filter="Racing" aria-pressed="false">Racing</button>
+        </div>
+        <div class="btn-row">
+          <input class="select" type="search" id="browse-search" placeholder="Filter titles&hellip;" aria-label="Filter games" style="min-width:180px">
+          <label for="browse-sort" class="small dim">Sort</label>
+          <select class="select" id="browse-sort">
+            <option value="featured">Featured</option>
+            <option value="rating">Highest rated</option>
+            <option value="name">Name A&ndash;Z</option>
+          </select>
+        </div>
+      </div>
+
+      <p class="result-count" id="browse-count" role="status">Showing all 4 titles</p>
+
+      <div class="grid g4" id="browse-grid">
+
+        <div data-name="Kingdom of Ash" data-dev="Ember Forge" data-cat="Strategy" data-rating="4.8" data-order="1">
+          <a class="app-card" href="kingdom-of-ash.html">
+            <div class="tile tile-md art-1" aria-hidden="true">K</div>
+            <div class="app-name">Kingdom of Ash</div>
+            <div class="app-cat">Strategy &middot; Ember Forge</div>
+            <div class="app-rate">4.8 &#9733; &middot; Free</div>
+          </a>
+          <div class="btn-row" style="margin-top:9px">
+            <button class="btn btn-ghost btn-sm btn-save" type="button"
+              data-app-id="kingdom-of-ash" data-app-name="Kingdom of Ash"
+              data-label-on="Installed" data-label-off="Install">Install</button>
+            <a class="btn btn-plain btn-sm" href="kingdom-of-ash.html">Open page</a>
+          </div>
+        </div>
+
+        <div data-name="Nebula Raiders" data-dev="Vantara Studios" data-cat="Action" data-rating="4.6" data-order="2">
+          <a class="app-card" href="nebula-raiders.html">
+            <div class="tile tile-md art-2" aria-hidden="true">N</div>
+            <div class="app-name">Nebula Raiders</div>
+            <div class="app-cat">Action &middot; Vantara Studios</div>
+            <div class="app-rate">4.6 &#9733; &middot; Free</div>
+          </a>
+          <div class="btn-row" style="margin-top:9px">
+            <button class="btn btn-ghost btn-sm btn-save" type="button"
+              data-app-id="nebula-raiders" data-app-name="Nebula Raiders"
+              data-label-on="Installed" data-label-off="Install">Install</button>
+            <a class="btn btn-plain btn-sm" href="nebula-raiders.html">Open page</a>
+          </div>
+        </div>
+
+        <div data-name="Mindfold" data-dev="Quietbyte" data-cat="Puzzle" data-rating="4.7" data-order="3">
+          <a class="app-card" href="mindfold.html">
+            <div class="tile tile-md art-4" aria-hidden="true">M</div>
+            <div class="app-name">Mindfold</div>
+            <div class="app-cat">Puzzle &middot; Quietbyte</div>
+            <div class="app-rate">4.7 &#9733; &middot; Free</div>
+          </a>
+          <div class="btn-row" style="margin-top:9px">
+            <button class="btn btn-ghost btn-sm btn-save" type="button"
+              data-app-id="mindfold" data-app-name="Mindfold"
+              data-label-on="Installed" data-label-off="Install">Install</button>
+            <a class="btn btn-plain btn-sm" href="mindfold.html">Open page</a>
+          </div>
+        </div>
+
+        <div data-name="Pocket Racer 9" data-dev="Octane Lab" data-cat="Racing" data-rating="4.3" data-order="4">
+          <a class="app-card" href="pocket-racer.html">
+            <div class="tile tile-md art-5" aria-hidden="true">P</div>
+            <div class="app-name">Pocket Racer 9</div>
+            <div class="app-cat">Racing &middot; Octane Lab</div>
+            <div class="app-rate">4.3 &#9733; &middot; Free</div>
+          </a>
+          <div class="btn-row" style="margin-top:9px">
+            <button class="btn btn-ghost btn-sm btn-save" type="button"
+              data-app-id="pocket-racer" data-app-name="Pocket Racer 9"
+              data-label-on="Installed" data-label-off="Install">Install</button>
+            <a class="btn btn-plain btn-sm" href="pocket-racer.html">Open page</a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="empty-state hide" id="browse-empty">
+        <div class="big">&#128269;</div>
+        <h3>No games match that</h3>
+        <p>Try a shorter word, clear the genre filter, or look through the apps instead.</p>
+        <div class="btn-row" style="justify-content:center">
+          <a class="btn btn-ghost" href="apps.html">Browse apps</a>
+          <a class="btn btn-ghost" href="categories.html">All categories</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-col footer-about">
+        <a class="logo" href="index.html" style="margin-bottom:12px"><span class="logo-mark" aria-hidden="true"></span> <span>PlayVerse</span></a>
+        <p class="dim">A demonstration storefront. Every title, studio, rating and review on this site is fictional and invented for the demo.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Browse</h4>
+        <ul>
+          <li><a href="games.html">Games</a></li>
+          <li><a href="apps.html">Apps</a></li>
+          <li><a href="charts.html">Top charts</a></li>
+          <li><a href="categories.html">Categories</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Titles</h4>
+        <ul>
+          <li><a href="kingdom-of-ash.html">Kingdom of Ash</a></li>
+          <li><a href="nebula-raiders.html">Nebula Raiders</a></li>
+          <li><a href="mindfold.html">Mindfold</a></li>
+          <li><a href="pocket-racer.html">Pocket Racer 9</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Help</h4>
+        <ul>
+          <li><a href="library.html">My library</a></li>
+          <li><a href="support.html">Help centre</a></li>
+          <li><a href="support.html#refunds">Refund policy</a></li>
+          <li><a href="support.html#contact">Contact us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span data-year>2026</span> PlayVerse &middot; Demo storefront, not a real shop.</span>
+      <span>No payments, no accounts, no tracking.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/catalog.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

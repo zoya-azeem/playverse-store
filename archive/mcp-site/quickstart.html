@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quickstart — MCP Hub</title>
+<meta name="description" content="Connect your first MCP server to a client, then build your own server in Python or TypeScript. Includes config examples, the Inspector workflow and a troubleshooting checklist.">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap nav">
+    <a class="brand" href="index.html"><span class="brand-mark">M</span> MCP Hub</a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-links">&#9776;</button>
+    <nav class="nav-links" id="nav-links" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="what-is-mcp.html">What is MCP</a>
+      <a href="architecture.html">Architecture</a>
+      <a href="servers.html">Servers</a>
+      <a href="quickstart.html">Quickstart</a>
+      <a href="tutorials.html">Tutorials</a>
+      <a href="blog.html">Blog</a>
+      <a href="faq.html">FAQ</a>
+      <a class="btn btn-primary btn-sm nav-cta" href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="page-head">
+    <div class="wrap">
+      <div class="breadcrumb"><a href="index.html">Home</a><span>/</span>Quickstart</div>
+      <h1>Quickstart</h1>
+      <p>Two halves: connect an existing server to a client, then write your own. Budget ten minutes for the first and about thirty for the second.</p>
+    </div>
+  </div>
+
+  <section>
+    <div class="wrap wrap-narrow">
+
+      <div class="callout">
+        <p><strong>You will need</strong> an MCP-capable client (a desktop assistant, a coding CLI
+        or an IDE extension), plus Node.js 18+ or Python 3.10+ depending on which server you run.
+        Exact config paths differ between clients — check your client's own documentation for where
+        its config file lives.</p>
+      </div>
+
+      <h2 id="connect">Part 1 &mdash; Connect an existing server</h2>
+
+      <ol class="steps">
+        <li>
+          <h3>Pick a server</h3>
+          <p>Start with the filesystem server. It is useful immediately, it is easy to reason about, and its blast radius is whatever directory you point it at.</p>
+        </li>
+
+        <li>
+          <h3>Add it to your client's config</h3>
+          <p>Most clients use the same JSON shape: a map of server names to a command, its arguments and optional environment variables.</p>
+          <div class="codeblock">
+            <div class="codeblock-head"><span>mcp config &mdash; stdio server</span><button class="copy-btn" type="button">Copy</button></div>
+<pre><code>{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/Users/you/projects"
+      ]
+    }
+  }
+}</code></pre>
+          </div>
+          <p class="small dim">On Windows the path looks like <code>C:\\Users\\you\\projects</code> — remember that backslashes must be doubled inside JSON.</p>
+        </li>
+
+        <li>
+          <h3>Restart the client</h3>
+          <p>Config is read at startup, not watched. A full restart — not just a new conversation — is what makes the server appear.</p>
+        </li>
+
+        <li>
+          <h3>Confirm the tools are there</h3>
+          <p>Look for the tool indicator in your client's UI, or just ask: <em>"What tools do you have available?"</em> You should see the filesystem operations listed. Then try <em>"List the files in my projects directory."</em></p>
+        </li>
+
+        <li>
+          <h3>Add a second server</h3>
+          <p>Servers compose. Two entries means two independent sessions, and the model can chain across them — read a file with one, fetch a URL with the other.</p>
+          <div class="codeblock">
+            <div class="codeblock-head"><span>two servers, one with an environment secret</span><button class="copy-btn" type="button">Copy</button></div>
+<pre><code>{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/Users/you/projects"]
+    },
+    "my-api": {
+      "command": "python",
+      "args": ["-m", "my_server"],
+      "env": { "API_TOKEN": "..." }
+    }
+  }
+}</code></pre>
+          </div>
+          <p class="small dim">Keep real secrets out of the config file where you can — read them from your shell environment or a secrets manager inside the server instead.</p>
+        </li>
+      </ol>
+
+      <hr>
+
+      <h2 id="build">Part 2 &mdash; Build your own server</h2>
+      <p class="lead">
+        A first server is smaller than you expect. The SDK handles the protocol; you write the
+        function bodies and the descriptions.
+      </p>
+
+      <h3>Python</h3>
+      <div class="codeblock">
+        <div class="codeblock-head"><span>install</span><button class="copy-btn" type="button">Copy</button></div>
+<pre><code>pip install "mcp[cli]"</code></pre>
+      </div>
+
+      <div class="codeblock">
+        <div class="codeblock-head"><span>server.py</span><button class="copy-btn" type="button">Copy</button></div>
+<pre><code>from mcp.server.fastmcp import FastMCP
+
+mcp = FastMCP("inventory")
+
+@mcp.tool()
+def check_stock(sku: str) -&gt; str:
+    """Return the current stock level for a product SKU.
+
+    Use this when the user asks whether an item is available,
+    how many are left, or which warehouse holds it.
+    """
+    # Replace with a real lookup against your system.
+    levels = {"TS-100": 42, "TS-200": 0}
+    if sku not in levels:
+        return f"No product found with SKU {sku}."
+    count = levels[sku]
+    return f"{sku}: {count} units in stock." if count else f"{sku} is out of stock."
+
+@mcp.resource("inventory://catalogue")
+def catalogue() -&gt; str:
+    """The full product catalogue as CSV."""
+    return "sku,name,price\nTS-100,T-shirt,19.00\nTS-200,Hoodie,45.00"
+
+if __name__ == "__main__":
+    mcp.run()</code></pre>
+      </div>
+
+      <h3>TypeScript</h3>
+      <div class="codeblock">
+        <div class="codeblock-head"><span>install</span><button class="copy-btn" type="button">Copy</button></div>
+<pre><code>npm install @modelcontextprotocol/sdk zod</code></pre>
+      </div>
+
+      <div class="codeblock">
+        <div class="codeblock-head"><span>server.ts</span><button class="copy-btn" type="button">Copy</button></div>
+<pre><code>import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { z } from "zod";
+
+const server = new McpServer({ name: "inventory", version: "1.0.0" });
+
+server.tool(
+  "check_stock",
+  "Return the current stock level for a product SKU. Use this when the " +
+    "user asks whether an item is available or how many are left.",
+  { sku: z.string().describe("Product SKU, e.g. TS-100") },
+  async ({ sku }) =&gt; {
+    const levels: Record&lt;string, number&gt; = { "TS-100": 42, "TS-200": 0 };
+    const count = levels[sku];
+    const text =
+      count === undefined
+        ? `No product found with SKU ${sku}.`
+        : count &gt; 0
+          ? `${sku}: ${count} units in stock.`
+          : `${sku} is out of stock.`;
+    return { content: [{ type: "text", text }] };
+  }
+);
+
+await server.connect(new StdioServerTransport());</code></pre>
+      </div>
+
+      <div class="callout callout-good">
+        <p><strong>The description is the API.</strong> The model never reads your implementation —
+        only the name, the description and the schema. Say what the tool does, when to reach for it
+        and what it returns. A vague description is the single most common reason a tool goes
+        unused.</p>
+      </div>
+
+      <hr>
+
+      <h2 id="test">Part 3 &mdash; Test it without a model</h2>
+      <p>
+        Debugging through a chat interface is slow, because you cannot tell a bad tool description
+        from a broken handler. The Inspector gives you a direct UI onto your server: list the
+        tools, call them with arguments you choose, read the raw JSON back.
+      </p>
+
+      <div class="codeblock">
+        <div class="codeblock-head"><span>run the inspector against your server</span><button class="copy-btn" type="button">Copy</button></div>
+<pre><code>npx @modelcontextprotocol/inspector python server.py</code></pre>
+      </div>
+
+      <p>Work through this list before you wire the server into a client:</p>
+      <ul>
+        <li>Does the server appear as connected, with the protocol version negotiated?</li>
+        <li>Does every tool show up in <code>tools/list</code> with the schema you intended?</li>
+        <li>Does each tool return sensible text for valid input?</li>
+        <li>Does invalid input come back as <code>isError: true</code> with a readable message, rather than a crash?</li>
+        <li>Do your resources list and read correctly?</li>
+      </ul>
+
+      <hr>
+
+      <h2 id="troubleshooting">Troubleshooting</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Symptom</th><th>Usual cause</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Server never appears in the client</td>
+              <td>Malformed JSON in the config, or the client was not fully restarted. Validate the file, then quit the app completely rather than reloading the window.</td>
+            </tr>
+            <tr>
+              <td><code>command not found</code> in the logs</td>
+              <td>The client does not inherit your shell's <code>PATH</code>. Use an absolute path to the interpreter — <code>/usr/local/bin/python3</code>, not <code>python</code>.</td>
+            </tr>
+            <tr>
+              <td>Connects, then immediately drops</td>
+              <td>Something printed to stdout. Over stdio, stdout carries protocol frames only. Send every log line to stderr instead.</td>
+            </tr>
+            <tr>
+              <td>Tools listed but never called</td>
+              <td>A description the model cannot act on. Add when-to-use guidance and concrete argument examples, then test the wording in the Inspector.</td>
+            </tr>
+            <tr>
+              <td>Works in the Inspector, fails in the client</td>
+              <td>Environment difference — a missing variable, a relative path resolved against a different working directory, or a permissions gap.</td>
+            </tr>
+            <tr>
+              <td>Remote server returns 401 or 403</td>
+              <td>Token audience mismatch. The server must only accept tokens that were issued for it; passing a token through to a downstream API is the confused-deputy bug.</td>
+            </tr>
+            <tr>
+              <td>Large results blow the context window</td>
+              <td>Paginate and summarise inside the tool. Return the 20 rows that matter with a total count, not 10,000 rows of JSON.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="cta-band mt3">
+        <h2>Keep going</h2>
+        <p>The tutorials take this skeleton and turn it into servers that do real work — database access, OAuth, resource subscriptions and deployment.</p>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="tutorials.html">Browse the tutorials &rarr;</a>
+          <a class="btn btn-ghost" href="architecture.html">Review the protocol</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-col footer-about">
+        <a class="brand" href="index.html" style="margin-bottom:14px"><span class="brand-mark">M</span> MCP Hub</a>
+        <p class="dim">An independent, community-written guide to the Model Context Protocol. Not affiliated with any protocol maintainer or vendor.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="what-is-mcp.html">What is MCP</a></li>
+          <li><a href="architecture.html">Architecture</a></li>
+          <li><a href="quickstart.html">Quickstart</a></li>
+          <li><a href="tutorials.html">Tutorials</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="servers.html">Server directory</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Reference</h4>
+        <ul>
+          <li><a href="architecture.html#transports">Transports</a></li>
+          <li><a href="architecture.html#messages">Message types</a></li>
+          <li><a href="what-is-mcp.html#glossary">Glossary</a></li>
+          <li><a href="quickstart.html#troubleshooting">Troubleshooting</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span data-year>2026</span> MCP Hub &middot; Educational resource.</span>
+      <span>Static site &middot; no trackers, no cookies.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
