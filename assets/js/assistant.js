@@ -16,7 +16,7 @@
 
   function loadCatalogue() {
     if (catalogue || loadError) return Promise.resolve();
-    return fetch('api/titles.json')
+    return fetch('data/titles.json')
       .then(function (r) {
         if (!r.ok) throw new Error('HTTP ' + r.status);
         return r.json();
@@ -26,13 +26,13 @@
   }
 
   function getDetail(id) {
-    return fetch('api/titles/' + id + '.json')
+    return fetch('data/titles/' + id + '.json')
       .then(function (r) { return r.ok ? r.json() : null; })
       .catch(function () { return null; });
   }
 
   function getReviews(id) {
-    return fetch('api/reviews/' + id + '.json')
+    return fetch('data/reviews/' + id + '.json')
       .then(function (r) { return r.ok ? r.json() : null; })
       .catch(function () { return null; });
   }
