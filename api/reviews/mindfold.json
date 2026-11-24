@@ -1,0 +1,31 @@
+{
+  "titleId": "mindfold",
+  "titleName": "Mindfold",
+  "rating": 4.7,
+  "reviewCount": "318K",
+  "showing": 3,
+  "reviewsPageUrl": "https://playverse-store.vercel.app/mindfold-reviews.html",
+  "reviews": [
+    {
+      "author": "E. Kaur",
+      "stars": 5,
+      "date": "2026-11-20",
+      "helpful": 688,
+      "text": "No timer, no streak, no notification begging me to come back."
+    },
+    {
+      "author": "D. Weber",
+      "stars": 5,
+      "date": "2026-11-15",
+      "helpful": 421,
+      "text": "Each chapter teaches one rule and then does something unexpected with it."
+    },
+    {
+      "author": "N. Adeyemi",
+      "stars": 4,
+      "date": "2026-11-11",
+      "helpful": 152,
+      "text": "Beautiful and calm. Only gripe is that the last twenty puzzles repeat ideas from the middle chapters."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "titleId": "kingdom-of-ash",
+  "titleName": "Kingdom of Ash",
+  "rating": 4.8,
+  "reviewCount": "1.2M",
+  "showing": 3,
+  "reviewsPageUrl": "https://playverse-store.vercel.app/kingdom-of-ash-reviews.html",
+  "reviews": [
+    {
+      "author": "T. Baqir",
+      "stars": 5,
+      "date": "2026-11-19",
+      "helpful": 1024,
+      "text": "Season 4 fixed my one complaint: alliances now cost something to break, so diplomacy finally matters."
+    },
+    {
+      "author": "H. Vogel",
+      "stars": 5,
+      "date": "2026-11-16",
+      "helpful": 731,
+      "text": "Weather affecting supply lines rather than just the lighting is a small change that reshapes the whole mid-game."
+    },
+    {
+      "author": "R. Castillo",
+      "stars": 4,
+      "date": "2026-11-12",
+      "helpful": 402,
+      "text": "Brilliant, but the 740 MB update over mobile data caught me out."
+    }
+  ]
+}

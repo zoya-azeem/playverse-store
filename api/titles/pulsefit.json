@@ -1,0 +1,22 @@
+{
+  "id": "pulsefit",
+  "name": "PulseFit",
+  "developer": "Vital Works",
+  "category": "Health",
+  "type": "app",
+  "rating": 4.4,
+  "reviewCount": "890K",
+  "size": "72 MB",
+  "price": "Free",
+  "contentRating": "12+",
+  "updated": "2026-11-15",
+  "tags": [
+    "Subscription",
+    "Wearables",
+    "Offline"
+  ],
+  "description": "Workout and sleep tracking that works with the watch you already own. Plans adjust when you miss a week instead of resetting your streak and sulking about it.",
+  "pageUrl": "https://playverse-store.vercel.app/pulsefit.html",
+  "reviewsPageUrl": "https://playverse-store.vercel.app/pulsefit-reviews.html",
+  "reviewsUrl": "https://playverse-store.vercel.app/api/reviews/pulsefit.json"
+}

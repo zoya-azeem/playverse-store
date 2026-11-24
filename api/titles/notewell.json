@@ -1,0 +1,22 @@
+{
+  "id": "notewell",
+  "name": "NoteWell",
+  "developer": "Paperless Inc",
+  "category": "Productivity",
+  "type": "app",
+  "rating": 4.8,
+  "reviewCount": "520K",
+  "size": "44 MB",
+  "price": "Free",
+  "contentRating": "3+",
+  "updated": "2026-11-20",
+  "tags": [
+    "No ads",
+    "Offline",
+    "No account needed"
+  ],
+  "description": "Notes that sync without an account, export to plain markdown and open in under a second on a five-year-old phone. Your files stay yours - there is a folder on disk you can read with anything.",
+  "pageUrl": "https://playverse-store.vercel.app/notewell.html",
+  "reviewsPageUrl": "https://playverse-store.vercel.app/notewell-reviews.html",
+  "reviewsUrl": "https://playverse-store.vercel.app/api/reviews/notewell.json"
+}

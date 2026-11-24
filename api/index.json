@@ -1,0 +1,46 @@
+{
+  "name": "PlayVerse Store API",
+  "description": "Read-only JSON endpoints for the PlayVerse demo storefront. All data is fictional.",
+  "version": "1.0.0",
+  "baseUrl": "https://playverse-store.vercel.app",
+  "endpoints": [
+    {
+      "method": "GET",
+      "path": "/api/titles.json",
+      "returns": "All 6 titles (games + apps)"
+    },
+    {
+      "method": "GET",
+      "path": "/api/games.json",
+      "returns": "The 4 games"
+    },
+    {
+      "method": "GET",
+      "path": "/api/apps.json",
+      "returns": "The 2 apps"
+    },
+    {
+      "method": "GET",
+      "path": "/api/categories.json",
+      "returns": "Categories with their title"
+    },
+    {
+      "method": "GET",
+      "path": "/api/titles/{id}.json",
+      "returns": "One title in full"
+    },
+    {
+      "method": "GET",
+      "path": "/api/reviews/{id}.json",
+      "returns": "Reviews for one title"
+    }
+  ],
+  "ids": [
+    "kingdom-of-ash",
+    "nebula-raiders",
+    "mindfold",
+    "pocket-racer",
+    "notewell",
+    "pulsefit"
+  ]
+}

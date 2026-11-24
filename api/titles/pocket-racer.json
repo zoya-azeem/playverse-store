@@ -1,0 +1,22 @@
+{
+  "id": "pocket-racer",
+  "name": "Pocket Racer 9",
+  "developer": "Octane Lab",
+  "category": "Racing",
+  "type": "game",
+  "rating": 4.3,
+  "reviewCount": "610K",
+  "size": "788 MB",
+  "price": "Free",
+  "contentRating": "7+",
+  "updated": "2026-11-06",
+  "tags": [
+    "In-app purchases",
+    "Controller",
+    "Offline"
+  ],
+  "description": "Arcade racing that never pretends to be a simulator. Eighty tracks, a handling model you can learn in one race, and a career mode that does not gate the good cars behind a paywall.",
+  "pageUrl": "https://playverse-store.vercel.app/pocket-racer.html",
+  "reviewsPageUrl": "https://playverse-store.vercel.app/pocket-racer-reviews.html",
+  "reviewsUrl": "https://playverse-store.vercel.app/api/reviews/pocket-racer.json"
+}

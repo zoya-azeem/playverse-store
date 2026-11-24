@@ -1,0 +1,31 @@
+{
+  "titleId": "pulsefit",
+  "titleName": "PulseFit",
+  "rating": 4.4,
+  "reviewCount": "890K",
+  "showing": 3,
+  "reviewsPageUrl": "https://playverse-store.vercel.app/pulsefit-reviews.html",
+  "reviews": [
+    {
+      "author": "S. Aziz",
+      "stars": 5,
+      "date": "2026-11-19",
+      "helpful": 604,
+      "text": "Missed a whole week and the plan adjusted instead of resetting my streak."
+    },
+    {
+      "author": "V. Petrova",
+      "stars": 4,
+      "date": "2026-11-14",
+      "helpful": 287,
+      "text": "Works with the watch I already own. Subscription prompt is a bit frequent."
+    },
+    {
+      "author": "L. Martins",
+      "stars": 3,
+      "date": "2026-11-08",
+      "helpful": 164,
+      "text": "Sleep tracking is accurate, workout plans are generic."
+    }
+  ]
+}

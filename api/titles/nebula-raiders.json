@@ -1,0 +1,22 @@
+{
+  "id": "nebula-raiders",
+  "name": "Nebula Raiders",
+  "developer": "Vantara Studios",
+  "category": "Action",
+  "type": "game",
+  "rating": 4.6,
+  "reviewCount": "842K",
+  "size": "412 MB",
+  "price": "Free",
+  "contentRating": "12+",
+  "updated": "2026-11-11",
+  "tags": [
+    "In-app purchases",
+    "Controller",
+    "Cloud save"
+  ],
+  "description": "A twin-stick shooter set in the shipping lanes between dying stars. Salvage wrecks, upgrade a hull you will probably lose anyway, and outrun a blockade that learns your habits.",
+  "pageUrl": "https://playverse-store.vercel.app/nebula-raiders.html",
+  "reviewsPageUrl": "https://playverse-store.vercel.app/nebula-raiders-reviews.html",
+  "reviewsUrl": "https://playverse-store.vercel.app/api/reviews/nebula-raiders.json"
+}

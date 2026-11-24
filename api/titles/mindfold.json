@@ -1,0 +1,22 @@
+{
+  "id": "mindfold",
+  "name": "Mindfold",
+  "developer": "Quietbyte",
+  "category": "Puzzle",
+  "type": "game",
+  "rating": 4.7,
+  "reviewCount": "318K",
+  "size": "96 MB",
+  "price": "Free",
+  "contentRating": "3+",
+  "updated": "2026-11-20",
+  "tags": [
+    "Offline",
+    "No ads",
+    "Under 100 MB"
+  ],
+  "description": "120 origami-style spatial puzzles. No timer, no score, no streak to lose - just one more fold before bed. Each chapter introduces a single new rule and then takes it somewhere unexpected.",
+  "pageUrl": "https://playverse-store.vercel.app/mindfold.html",
+  "reviewsPageUrl": "https://playverse-store.vercel.app/mindfold-reviews.html",
+  "reviewsUrl": "https://playverse-store.vercel.app/api/reviews/mindfold.json"
+}

@@ -1,0 +1,83 @@
+{
+  "count": 6,
+  "titles": [
+    {
+      "id": "kingdom-of-ash",
+      "name": "Kingdom of Ash",
+      "developer": "Ember Forge",
+      "category": "Strategy",
+      "type": "game",
+      "rating": 4.8,
+      "reviewCount": "1.2M",
+      "size": "1.1 GB",
+      "price": "Free",
+      "pageUrl": "https://playverse-store.vercel.app/kingdom-of-ash.html",
+      "detailUrl": "https://playverse-store.vercel.app/api/titles/kingdom-of-ash.json"
+    },
+    {
+      "id": "nebula-raiders",
+      "name": "Nebula Raiders",
+      "developer": "Vantara Studios",
+      "category": "Action",
+      "type": "game",
+      "rating": 4.6,
+      "reviewCount": "842K",
+      "size": "412 MB",
+      "price": "Free",
+      "pageUrl": "https://playverse-store.vercel.app/nebula-raiders.html",
+      "detailUrl": "https://playverse-store.vercel.app/api/titles/nebula-raiders.json"
+    },
+    {
+      "id": "mindfold",
+      "name": "Mindfold",
+      "developer": "Quietbyte",
+      "category": "Puzzle",
+      "type": "game",
+      "rating": 4.7,
+      "reviewCount": "318K",
+      "size": "96 MB",
+      "price": "Free",
+      "pageUrl": "https://playverse-store.vercel.app/mindfold.html",
+      "detailUrl": "https://playverse-store.vercel.app/api/titles/mindfold.json"
+    },
+    {
+      "id": "pocket-racer",
+      "name": "Pocket Racer 9",
+      "developer": "Octane Lab",
+      "category": "Racing",
+      "type": "game",
+      "rating": 4.3,
+      "reviewCount": "610K",
+      "size": "788 MB",
+      "price": "Free",
+      "pageUrl": "https://playverse-store.vercel.app/pocket-racer.html",
+      "detailUrl": "https://playverse-store.vercel.app/api/titles/pocket-racer.json"
+    },
+    {
+      "id": "notewell",
+      "name": "NoteWell",
+      "developer": "Paperless Inc",
+      "category": "Productivity",
+      "type": "app",
+      "rating": 4.8,
+      "reviewCount": "520K",
+      "size": "44 MB",
+      "price": "Free",
+      "pageUrl": "https://playverse-store.vercel.app/notewell.html",
+      "detailUrl": "https://playverse-store.vercel.app/api/titles/notewell.json"
+    },
+    {
+      "id": "pulsefit",
+      "name": "PulseFit",
+      "developer": "Vital Works",
+      "category": "Health",
+      "type": "app",
+      "rating": 4.4,
+      "reviewCount": "890K",
+      "size": "72 MB",
+      "price": "Free",
+      "pageUrl": "https://playverse-store.vercel.app/pulsefit.html",
+      "detailUrl": "https://playverse-store.vercel.app/api/titles/pulsefit.json"
+    }
+  ]
+}

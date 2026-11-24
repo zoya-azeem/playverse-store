@@ -1,0 +1,31 @@
+{
+  "titleId": "nebula-raiders",
+  "titleName": "Nebula Raiders",
+  "rating": 4.6,
+  "reviewCount": "842K",
+  "showing": 3,
+  "reviewsPageUrl": "https://playverse-store.vercel.app/nebula-raiders-reviews.html",
+  "reviews": [
+    {
+      "author": "A. Rahman",
+      "stars": 5,
+      "date": "2026-11-14",
+      "helpful": 412,
+      "text": "Runs at a steady frame rate on a phone from 2021, which is more than I can say for most things this size."
+    },
+    {
+      "author": "M. Keller",
+      "stars": 4,
+      "date": "2026-11-09",
+      "helpful": 287,
+      "text": "Genuinely good, but the shop interface is pushed a little hard after a loss."
+    },
+    {
+      "author": "S. Pereira",
+      "stars": 5,
+      "date": "2026-11-03",
+      "helpful": 196,
+      "text": "The blockade adapting to how you play is not marketing copy, it really does change."
+    }
+  ]
+}

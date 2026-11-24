@@ -1,0 +1,22 @@
+{
+  "id": "kingdom-of-ash",
+  "name": "Kingdom of Ash",
+  "developer": "Ember Forge",
+  "category": "Strategy",
+  "type": "game",
+  "rating": 4.8,
+  "reviewCount": "1.2M",
+  "size": "1.1 GB",
+  "price": "Free",
+  "contentRating": "12+",
+  "updated": "2026-11-18",
+  "tags": [
+    "In-app purchases",
+    "Online co-op",
+    "Controller"
+  ],
+  "description": "Build a dynasty from the embers of a fallen empire. Claim provinces, broker alliances you fully intend to break, and hold your borders through four seasons of weather that actually matters.",
+  "pageUrl": "https://playverse-store.vercel.app/kingdom-of-ash.html",
+  "reviewsPageUrl": "https://playverse-store.vercel.app/kingdom-of-ash-reviews.html",
+  "reviewsUrl": "https://playverse-store.vercel.app/api/reviews/kingdom-of-ash.json"
+}

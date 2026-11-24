@@ -1,0 +1,31 @@
+{
+  "titleId": "notewell",
+  "titleName": "NoteWell",
+  "rating": 4.8,
+  "reviewCount": "520K",
+  "showing": 3,
+  "reviewsPageUrl": "https://playverse-store.vercel.app/notewell-reviews.html",
+  "reviews": [
+    {
+      "author": "F. Ahmed",
+      "stars": 5,
+      "date": "2026-11-21",
+      "helpful": 877,
+      "text": "No account, no sign-up wall, and the notes are plain markdown in a folder I can open with anything."
+    },
+    {
+      "author": "B. Lindqvist",
+      "stars": 5,
+      "date": "2026-11-17",
+      "helpful": 512,
+      "text": "Opens in under a second on a five-year-old phone."
+    },
+    {
+      "author": "R. Mehta",
+      "stars": 4,
+      "date": "2026-11-10",
+      "helpful": 203,
+      "text": "Export is excellent. I would like folder nesting beyond two levels."
+    }
+  ]
+}

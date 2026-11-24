@@ -1,0 +1,31 @@
+{
+  "titleId": "pocket-racer",
+  "titleName": "Pocket Racer 9",
+  "rating": 4.3,
+  "reviewCount": "610K",
+  "showing": 3,
+  "reviewsPageUrl": "https://playverse-store.vercel.app/pocket-racer-reviews.html",
+  "reviews": [
+    {
+      "author": "G. Mbeki",
+      "stars": 5,
+      "date": "2026-11-18",
+      "helpful": 394,
+      "text": "Handling model you can learn in one race and still be improving at in a hundred."
+    },
+    {
+      "author": "I. Sorensen",
+      "stars": 4,
+      "date": "2026-11-13",
+      "helpful": 211,
+      "text": "Career mode does not gate the good cars, which I appreciate."
+    },
+    {
+      "author": "P. Varma",
+      "stars": 3,
+      "date": "2026-11-07",
+      "helpful": 176,
+      "text": "Great to drive, but the ad after every third race broke the rhythm for me."
+    }
+  ]
+}

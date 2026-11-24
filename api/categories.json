@@ -1,0 +1,53 @@
+{
+  "count": 6,
+  "categories": [
+    {
+      "name": "Strategy",
+      "type": "game",
+      "titleCount": 1,
+      "titleId": "kingdom-of-ash",
+      "titleName": "Kingdom of Ash",
+      "pageUrl": "https://playverse-store.vercel.app/kingdom-of-ash.html"
+    },
+    {
+      "name": "Action",
+      "type": "game",
+      "titleCount": 1,
+      "titleId": "nebula-raiders",
+      "titleName": "Nebula Raiders",
+      "pageUrl": "https://playverse-store.vercel.app/nebula-raiders.html"
+    },
+    {
+      "name": "Puzzle",
+      "type": "game",
+      "titleCount": 1,
+      "titleId": "mindfold",
+      "titleName": "Mindfold",
+      "pageUrl": "https://playverse-store.vercel.app/mindfold.html"
+    },
+    {
+      "name": "Racing",
+      "type": "game",
+      "titleCount": 1,
+      "titleId": "pocket-racer",
+      "titleName": "Pocket Racer 9",
+      "pageUrl": "https://playverse-store.vercel.app/pocket-racer.html"
+    },
+    {
+      "name": "Productivity",
+      "type": "app",
+      "titleCount": 1,
+      "titleId": "notewell",
+      "titleName": "NoteWell",
+      "pageUrl": "https://playverse-store.vercel.app/notewell.html"
+    },
+    {
+      "name": "Health",
+      "type": "app",
+      "titleCount": 1,
+      "titleId": "pulsefit",
+      "titleName": "PulseFit",
+      "pageUrl": "https://playverse-store.vercel.app/pulsefit.html"
+    }
+  ]
+}
