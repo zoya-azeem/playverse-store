@@ -438,15 +438,71 @@
   /* ---------- 13. BroadEngage / MCPForge chat widget ----------
      Loaded on every page, because every page includes this file.
      The bot answers from the store's own JSON API via its MCP tools.     */
+  var CHAT_URL = 'https://app.broadengage.com/mfe-mcp/chat/' +
+                 '830414c9-2b0b-4024-99c3-e1d45c366370';
+
   function initChatWidget() {
-    if (document.getElementById('mcpforge-widget')) return;
-    var s = document.createElement('script');
-    s.id = 'mcpforge-widget';
-    s.async = true;
-    s.src = 'https://app.broadengage.com/mfe-mcp/widget.js';
-    s.setAttribute('data-bot-id', '830414c9-2b0b-4024-99c3-e1d45c366370');
-    s.setAttribute('data-app-url', 'https://app.broadengage.com/mfe-mcp');
-    document.head.appendChild(s);
+    if (document.getElementById('pv-chat-btn')) return;
+
+    var btn = document.createElement('button');
+    btn.id = 'pv-chat-btn';
+    btn.className = 'pv-chat-btn';
+    btn.type = 'button';
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-label', 'Open the PlayVerse assistant');
+    btn.innerHTML = '<span aria-hidden="true">💬</span>';
+
+    var panel = document.createElement('div');
+    panel.id = 'pv-chat-panel';
+    panel.className = 'pv-chat-panel';
+    panel.setAttribute('role', 'dialog');
+    panel.setAttribute('aria-label', 'PlayVerse assistant');
+    panel.innerHTML =
+      '<div class="pv-chat-head">' +
+        '<span>PlayVerse assistant</span>' +
+        '<button type="button" class="pv-chat-close" aria-label="Close the assistant">&times;</button>' +
+      '</div>' +
+      '<div class="pv-chat-body"></div>';
+
+    document.body.appendChild(panel);
+    document.body.appendChild(btn);
+
+    var loaded = false;
+
+    function open() {
+      // The iframe is only created on first open, so the chat service is not
+      // contacted at all unless the visitor actually wants it.
+      if (!loaded) {
+        var f = document.createElement('iframe');
+        f.className = 'pv-chat-frame';
+        f.src = CHAT_URL;
+        f.title = 'PlayVerse assistant chat';
+        f.setAttribute('allow', 'microphone');
+        panel.querySelector('.pv-chat-body').appendChild(f);
+        loaded = true;
+      }
+      panel.classList.add('open');
+      btn.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+      btn.setAttribute('aria-label', 'Close the PlayVerse assistant');
+      btn.innerHTML = '<span aria-hidden="true">✕</span>';
+    }
+
+    function close() {
+      panel.classList.remove('open');
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.setAttribute('aria-label', 'Open the PlayVerse assistant');
+      btn.innerHTML = '<span aria-hidden="true">💬</span>';
+    }
+
+    btn.addEventListener('click', function () {
+      if (panel.classList.contains('open')) { close(); } else { open(); }
+    });
+    panel.querySelector('.pv-chat-close').addEventListener('click', close);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && panel.classList.contains('open')) close();
+    });
   }
 
   /* ---------- 14. Footer year ---------- */
