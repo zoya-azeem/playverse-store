@@ -72,7 +72,12 @@ module.exports = async (req, res) => {
       headers: {
         'Content-Type': 'application/json',
         'Accept': '*/*',
-        'Cookie': cookie
+        'Cookie': cookie,
+        // The CRM authenticates with a cookie, so it checks these the way a
+        // browser would. Without them it rejects the call as cross-site.
+        'Origin': 'https://app.broadengage.com',
+        'Referer': 'https://app.broadengage.com/mfe-tracking/leads?embedded=1&org_id=' +
+                   ORG_ID + '&user_id=' + (process.env.BROADENGAGE_USER_ID || '129')
       },
       body: JSON.stringify({
         org_id: ORG_ID,
