@@ -14,27 +14,43 @@
 
   /* ---------------- data ---------------- */
 
+  /* Retries three times with a short backoff. A deploy rolling out can serve a
+     404 for a file that exists a second later, and a CDN edge can cache that
+     404 briefly - so retries after the first ask the browser to revalidate
+     rather than re-reading the same bad cached response. */
+  function fetchJson(url, tries) {
+    tries = tries || 3;
+
+    function attempt(n) {
+      var opts = n === 1 ? undefined : { cache: 'reload' };
+      return fetch(url, opts)
+        .then(function (r) {
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          return r.json();
+        })
+        .catch(function (err) {
+          if (n >= tries) throw err;
+          return new Promise(function (go) { setTimeout(go, 250 * n); })
+            .then(function () { return attempt(n + 1); });
+        });
+    }
+
+    return attempt(1);
+  }
+
   function loadCatalogue() {
-    if (catalogue || loadError) return Promise.resolve();
-    return fetch('data/titles.json')
-      .then(function (r) {
-        if (!r.ok) throw new Error('HTTP ' + r.status);
-        return r.json();
-      })
-      .then(function (d) { catalogue = d.titles || []; })
+    if (catalogue) return Promise.resolve();
+    return fetchJson('data/titles.json')
+      .then(function (d) { catalogue = d.titles || []; loadError = false; })
       .catch(function () { loadError = true; });
   }
 
   function getDetail(id) {
-    return fetch('data/titles/' + id + '.json')
-      .then(function (r) { return r.ok ? r.json() : null; })
-      .catch(function () { return null; });
+    return fetchJson('data/titles/' + id + '.json').catch(function () { return null; });
   }
 
   function getReviews(id) {
-    return fetch('data/reviews/' + id + '.json')
-      .then(function (r) { return r.ok ? r.json() : null; })
-      .catch(function () { return null; });
+    return fetchJson('data/reviews/' + id + '.json').catch(function () { return null; });
   }
 
   /* ---------------- helpers ---------------- */
@@ -169,9 +185,17 @@
       return Promise.resolve('Happy to pass you to the team. What is your name?');
     }
 
-    if (loadError || !catalogue) {
-      return Promise.resolve('I could not reach the store data just now. ' +
-        'Try <a href="games.html">the games page</a> instead.');
+    /* If the catalogue is missing, try loading it again before giving up. The
+       first attempt can fail during a deploy, and without this the widget
+       stayed broken for the rest of the visit even once the data came back. */
+    if (!catalogue) {
+      return loadCatalogue().then(function () {
+        if (!catalogue) {
+          return 'I could not reach the store data just now. ' +
+            'Try <a href="games.html">the games page</a> instead.';
+        }
+        return answer(raw);   // data is in - answer it properly this time
+      });
     }
 
     // greeting
