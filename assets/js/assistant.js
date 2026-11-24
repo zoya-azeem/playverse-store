@@ -106,6 +106,11 @@
   var lead = { step: null, name: '', email: '', topic: '' };
   var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
+  /* The last single title the conversation settled on, so a follow-up can say
+     "it" instead of repeating the name - which is how people actually ask. */
+  var lastTitle = null;
+  var PRONOUN_RE = /\b(it|its|it's|that one|this one|that game|this game|that app|this app|the game|the app)\b/;
+
   function resetLead() {
     lead = { step: null, name: '', email: '', topic: lead.topic };
   }
@@ -218,8 +223,19 @@
     var wantsCompare = /compare|versus|\bvs\b|better/.test(q);
     var wantsList = /what|which|list|show|available|have|browse|all /.test(q);
 
+    /* Follow-ups: "what do people say about it", "is it free", "how big is it".
+       Only fills in when nothing else matched, so naming a title always wins. */
+    if (!hits.length && (PRONOUN_RE.test(q) || (wantsReviews && q.split(/\s+/).length <= 4))) {
+      if (lastTitle) {
+        hits = [lastTitle];
+      } else if (PRONOUN_RE.test(q)) {
+        return Promise.resolve('Which title do you mean? Name it and I will look it up.');
+      }
+    }
+
     // compare two titles
     if (wantsCompare && hits.length >= 2) {
+      lastTitle = null;   // "it" would be ambiguous after comparing two
       return Promise.all([getDetail(hits[0].id), getDetail(hits[1].id)]).then(function (d) {
         if (!d[0] || !d[1]) return 'I could not load both of those.';
         var rows = [
@@ -239,6 +255,7 @@
 
     // reviews for a title
     if (hits.length && wantsReviews) {
+      lastTitle = hits[0];
       return getReviews(hits[0].id).then(function (d) {
         if (!d || !d.reviews || !d.reviews.length) return 'No reviews loaded for that one.';
         return '<strong>' + esc(d.titleName) + '</strong> &mdash; ' + d.rating +
@@ -253,6 +270,7 @@
 
     // one title in detail
     if (hits.length === 1) {
+      lastTitle = hits[0];
       return getDetail(hits[0].id).then(function (d) {
         if (!d) return 'I could not load that one.';
         lead.topic = 'Asked about ' + d.name;   // used if they later ask to be contacted
