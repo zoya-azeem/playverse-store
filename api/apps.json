@@ -11,8 +11,8 @@
       "reviewCount": "520K",
       "size": "44 MB",
       "price": "Free",
-      "pageUrl": "https://playverse-store.vercel.app/notewell.html",
-      "detailUrl": "https://playverse-store.vercel.app/api/titles/notewell.json"
+      "pageUrl": "https://playverse-rho.vercel.app/notewell.html",
+      "detailUrl": "https://playverse-rho.vercel.app/api/titles/notewell.json"
     },
     {
       "id": "pulsefit",
@@ -24,8 +24,8 @@
       "reviewCount": "890K",
       "size": "72 MB",
       "price": "Free",
-      "pageUrl": "https://playverse-store.vercel.app/pulsefit.html",
-      "detailUrl": "https://playverse-store.vercel.app/api/titles/pulsefit.json"
+      "pageUrl": "https://playverse-rho.vercel.app/pulsefit.html",
+      "detailUrl": "https://playverse-rho.vercel.app/api/titles/pulsefit.json"
     }
   ]
 }

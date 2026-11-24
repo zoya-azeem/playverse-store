@@ -7,7 +7,7 @@
       "titleCount": 1,
       "titleId": "kingdom-of-ash",
       "titleName": "Kingdom of Ash",
-      "pageUrl": "https://playverse-store.vercel.app/kingdom-of-ash.html"
+      "pageUrl": "https://playverse-rho.vercel.app/kingdom-of-ash.html"
     },
     {
       "name": "Action",
@@ -15,7 +15,7 @@
       "titleCount": 1,
       "titleId": "nebula-raiders",
       "titleName": "Nebula Raiders",
-      "pageUrl": "https://playverse-store.vercel.app/nebula-raiders.html"
+      "pageUrl": "https://playverse-rho.vercel.app/nebula-raiders.html"
     },
     {
       "name": "Puzzle",
@@ -23,7 +23,7 @@
       "titleCount": 1,
       "titleId": "mindfold",
       "titleName": "Mindfold",
-      "pageUrl": "https://playverse-store.vercel.app/mindfold.html"
+      "pageUrl": "https://playverse-rho.vercel.app/mindfold.html"
     },
     {
       "name": "Racing",
@@ -31,7 +31,7 @@
       "titleCount": 1,
       "titleId": "pocket-racer",
       "titleName": "Pocket Racer 9",
-      "pageUrl": "https://playverse-store.vercel.app/pocket-racer.html"
+      "pageUrl": "https://playverse-rho.vercel.app/pocket-racer.html"
     },
     {
       "name": "Productivity",
@@ -39,7 +39,7 @@
       "titleCount": 1,
       "titleId": "notewell",
       "titleName": "NoteWell",
-      "pageUrl": "https://playverse-store.vercel.app/notewell.html"
+      "pageUrl": "https://playverse-rho.vercel.app/notewell.html"
     },
     {
       "name": "Health",
@@ -47,7 +47,7 @@
       "titleCount": 1,
       "titleId": "pulsefit",
       "titleName": "PulseFit",
-      "pageUrl": "https://playverse-store.vercel.app/pulsefit.html"
+      "pageUrl": "https://playverse-rho.vercel.app/pulsefit.html"
     }
   ]
 }

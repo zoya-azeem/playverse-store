@@ -16,7 +16,7 @@
     "Cloud save"
   ],
   "description": "A twin-stick shooter set in the shipping lanes between dying stars. Salvage wrecks, upgrade a hull you will probably lose anyway, and outrun a blockade that learns your habits.",
-  "pageUrl": "https://playverse-store.vercel.app/nebula-raiders.html",
-  "reviewsPageUrl": "https://playverse-store.vercel.app/nebula-raiders-reviews.html",
-  "reviewsUrl": "https://playverse-store.vercel.app/api/reviews/nebula-raiders.json"
+  "pageUrl": "https://playverse-rho.vercel.app/nebula-raiders.html",
+  "reviewsPageUrl": "https://playverse-rho.vercel.app/nebula-raiders-reviews.html",
+  "reviewsUrl": "https://playverse-rho.vercel.app/api/reviews/nebula-raiders.json"
 }

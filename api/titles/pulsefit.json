@@ -16,7 +16,7 @@
     "Offline"
   ],
   "description": "Workout and sleep tracking that works with the watch you already own. Plans adjust when you miss a week instead of resetting your streak and sulking about it.",
-  "pageUrl": "https://playverse-store.vercel.app/pulsefit.html",
-  "reviewsPageUrl": "https://playverse-store.vercel.app/pulsefit-reviews.html",
-  "reviewsUrl": "https://playverse-store.vercel.app/api/reviews/pulsefit.json"
+  "pageUrl": "https://playverse-rho.vercel.app/pulsefit.html",
+  "reviewsPageUrl": "https://playverse-rho.vercel.app/pulsefit-reviews.html",
+  "reviewsUrl": "https://playverse-rho.vercel.app/api/reviews/pulsefit.json"
 }

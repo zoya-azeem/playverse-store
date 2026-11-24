@@ -16,7 +16,7 @@
     "Controller"
   ],
   "description": "Build a dynasty from the embers of a fallen empire. Claim provinces, broker alliances you fully intend to break, and hold your borders through four seasons of weather that actually matters.",
-  "pageUrl": "https://playverse-store.vercel.app/kingdom-of-ash.html",
-  "reviewsPageUrl": "https://playverse-store.vercel.app/kingdom-of-ash-reviews.html",
-  "reviewsUrl": "https://playverse-store.vercel.app/api/reviews/kingdom-of-ash.json"
+  "pageUrl": "https://playverse-rho.vercel.app/kingdom-of-ash.html",
+  "reviewsPageUrl": "https://playverse-rho.vercel.app/kingdom-of-ash-reviews.html",
+  "reviewsUrl": "https://playverse-rho.vercel.app/api/reviews/kingdom-of-ash.json"
 }

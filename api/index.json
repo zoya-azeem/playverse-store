@@ -2,7 +2,7 @@
   "name": "PlayVerse Store API",
   "description": "Read-only JSON endpoints for the PlayVerse demo storefront. All data is fictional.",
   "version": "1.0.0",
-  "baseUrl": "https://playverse-store.vercel.app",
+  "baseUrl": "https://playverse-rho.vercel.app",
   "endpoints": [
     {
       "method": "GET",

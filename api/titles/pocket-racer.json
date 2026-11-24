@@ -16,7 +16,7 @@
     "Offline"
   ],
   "description": "Arcade racing that never pretends to be a simulator. Eighty tracks, a handling model you can learn in one race, and a career mode that does not gate the good cars behind a paywall.",
-  "pageUrl": "https://playverse-store.vercel.app/pocket-racer.html",
-  "reviewsPageUrl": "https://playverse-store.vercel.app/pocket-racer-reviews.html",
-  "reviewsUrl": "https://playverse-store.vercel.app/api/reviews/pocket-racer.json"
+  "pageUrl": "https://playverse-rho.vercel.app/pocket-racer.html",
+  "reviewsPageUrl": "https://playverse-rho.vercel.app/pocket-racer-reviews.html",
+  "reviewsUrl": "https://playverse-rho.vercel.app/api/reviews/pocket-racer.json"
 }

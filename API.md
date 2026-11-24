@@ -3,7 +3,7 @@
 The store is a static site, so this "API" is just JSON files served from `/api/`.
 No server, no database, no build step — they deploy with the rest of the site.
 
-**Base URL:** `https://playverse-store.vercel.app`
+**Base URL:** `https://playverse-rho.vercel.app`
 Replace it everywhere below with whatever your real deployed URL is.
 
 ## Endpoints
@@ -32,7 +32,7 @@ Replace it everywhere below with whatever your real deployed URL is.
 | **Tool Name** | `list_titles` |
 | **Description** | `Lists every game and app in the PlayVerse store with its rating, developer, category, size and price. Use this first when the user asks what is available, what games there are, or wants to browse or compare titles.` |
 | **Method** | `GET` |
-| **URL** | `https://playverse-store.vercel.app/api/titles.json` |
+| **URL** | `https://playverse-rho.vercel.app/api/titles.json` |
 | **Headers** | leave empty |
 | **Query Params** | leave empty |
 
@@ -53,7 +53,7 @@ Parameters Schema:
 | **Tool Name** | `get_title` |
 | **Description** | `Fetches the full details of one PlayVerse title by its id: description, developer, category, rating, download size, price, content rating and tags. Use this after list_titles when the user asks about a specific game or app.` |
 | **Method** | `GET` |
-| **URL** | `https://playverse-store.vercel.app/api/titles/{id}.json` |
+| **URL** | `https://playverse-rho.vercel.app/api/titles/{id}.json` |
 | **Headers** | leave empty |
 | **Query Params** | leave empty |
 
@@ -87,7 +87,7 @@ Parameters Schema:
 | **Tool Name** | `get_title_reviews` |
 | **Description** | `Returns user reviews for one PlayVerse title: star rating, date, review text and how many people found it helpful. Use this when the user asks what people think of a title, whether it is good, or about complaints.` |
 | **Method** | `GET` |
-| **URL** | `https://playverse-store.vercel.app/api/reviews/{id}.json` |
+| **URL** | `https://playverse-rho.vercel.app/api/reviews/{id}.json` |
 | **Headers** | leave empty |
 | **Query Params** | leave empty |
 
@@ -121,7 +121,7 @@ Parameters Schema:
 | **Tool Name** | `list_games` |
 | **Description** | `Lists only the games in the PlayVerse store, excluding apps. Use when the user specifically asks about games rather than apps.` |
 | **Method** | `GET` |
-| **URL** | `https://playverse-store.vercel.app/api/games.json` |
+| **URL** | `https://playverse-rho.vercel.app/api/games.json` |
 
 Same empty schema as Tool 1. Swap the URL for `/api/apps.json` to make a `list_apps` tool.
 
