@@ -435,7 +435,21 @@
     installBtn.setAttribute('data-app-name', app.name);
   }
 
-  /* ---------- 13. Footer year ---------- */
+  /* ---------- 13. BroadEngage / MCPForge chat widget ----------
+     Loaded on every page, because every page includes this file.
+     The bot answers from the store's own JSON API via its MCP tools.     */
+  function initChatWidget() {
+    if (document.getElementById('mcpforge-widget')) return;
+    var s = document.createElement('script');
+    s.id = 'mcpforge-widget';
+    s.async = true;
+    s.src = 'https://app.broadengage.com/mfe-mcp/widget.js';
+    s.setAttribute('data-bot-id', '830414c9-2b0b-4024-99c3-e1d45c366370');
+    s.setAttribute('data-app-url', 'https://app.broadengage.com/mfe-mcp');
+    document.head.appendChild(s);
+  }
+
+  /* ---------- 14. Footer year ---------- */
   function initYear() {
     var y = new Date().getFullYear();
     Array.prototype.forEach.call(document.querySelectorAll('[data-year]'), function (el) {
@@ -457,6 +471,7 @@
     initClearLibrary();
     initFaq();
     initForm();
+    initChatWidget();
     initYear();
   }
 
