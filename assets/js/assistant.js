@@ -80,10 +80,84 @@
     }).join('') + '</ul>';
   }
 
+  /* ---------------- lead capture ---------------- */
+
+  /* Collected one field at a time, because parsing a name and an email out of
+     one free-text message gets it wrong often enough to matter. The details go
+     to /api/lead on this site, never to the CRM directly - the credential for
+     that lives server-side in a Vercel environment variable. */
+
+  var lead = { step: null, name: '', email: '', topic: '' };
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  function resetLead() {
+    lead = { step: null, name: '', email: '', topic: lead.topic };
+  }
+
+  function submitLead() {
+    return fetch('api/lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: lead.name,
+        email: lead.email,
+        message: lead.topic || 'Asked to be contacted via the website assistant'
+      })
+    })
+      .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+      .then(function (res) {
+        var who = esc(lead.name.split(' ')[0] || 'there');
+        resetLead();
+        if (res.ok && res.d && res.d.success) {
+          return 'Thanks ' + who + ' &mdash; passed to the team. Someone will email you.';
+        }
+        return esc((res.d && res.d.error) || 'That did not save. Please try again in a moment.');
+      })
+      .catch(function () {
+        resetLead();
+        return 'I could not reach the server just now. Please try again in a moment.';
+      });
+  }
+
+  function handleLeadStep(raw, q) {
+    if (/^(no|nope|cancel|stop|never ?mind|not now|later)\b/.test(q)) {
+      resetLead();
+      return Promise.resolve('No problem. Ask me anything else about the store.');
+    }
+
+    if (lead.step === 'name') {
+      var name = raw.trim().replace(/^(my name is|i am|i'm|this is)\s+/i, '').slice(0, 120);
+      if (name.length < 2) {
+        return Promise.resolve('What name should I put down?');
+      }
+      lead.name = name;
+      lead.step = 'email';
+      return Promise.resolve('Thanks ' + esc(name.split(' ')[0]) +
+        '. What is the best email to reach you on?');
+    }
+
+    if (lead.step === 'email') {
+      var m = raw.match(/[^\s@]+@[^\s@]+\.[^\s@]{2,}/);
+      var email = m ? m[0] : raw.trim();
+      if (!EMAIL_RE.test(email)) {
+        return Promise.resolve('That does not look like an email address. ' +
+          'Could you type it again, or say <em>cancel</em> to stop?');
+      }
+      lead.email = email;
+      lead.step = 'sending';
+      return submitLead();
+    }
+
+    return Promise.resolve('');
+  }
+
   /* ---------------- answering ---------------- */
 
   function answer(raw) {
     var q = raw.toLowerCase().trim();
+
+    // mid-conversation lead capture takes priority over everything else
+    if (lead.step && lead.step !== 'sending') return handleLeadStep(raw, q);
 
     if (loadError || !catalogue) {
       return Promise.resolve('I could not reach the store data just now. ' +
@@ -103,6 +177,13 @@
         '<li>Tell me about Mindfold</li>' +
         '<li>What do people say about Kingdom of Ash?</li>' +
         '<li>Compare Mindfold and Pocket Racer 9</li></ul>');
+    }
+
+    // someone asking to be contacted - start collecting details
+    if (/contact|get in touch|talk to (someone|a human|the team)|reach out|call me|email me|publish (my|a|our)|submit (my|a|our)|list my (game|app)|partner|work with you|sales|\bdemo\b/.test(q)) {
+      lead.step = 'name';
+      lead.topic = raw.trim().slice(0, 300);
+      return Promise.resolve('Happy to pass you to the team. What is your name?');
     }
 
     var hits = findTitles(q);
@@ -147,6 +228,7 @@
     if (hits.length === 1) {
       return getDetail(hits[0].id).then(function (d) {
         if (!d) return 'I could not load that one.';
+        lead.topic = 'Asked about ' + d.name;   // used if they later ask to be contacted
         return '<strong>' + esc(d.name) + '</strong> by ' + esc(d.developer) + '<br>' +
           esc(d.description) +
           '<div class="pv-msg-facts">' + esc(d.category) + ' &middot; ' + d.rating +
@@ -263,7 +345,7 @@
     function chips() {
       var row = document.createElement('div');
       row.className = 'pv-chips';
-      ['What games do you have?', 'Tell me about Mindfold', 'Best rated?']
+      ['What games do you have?', 'Tell me about Mindfold', 'Talk to the team']
         .forEach(function (t) {
           var c = document.createElement('button');
           c.type = 'button';
