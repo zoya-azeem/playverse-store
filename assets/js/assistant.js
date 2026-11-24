@@ -159,6 +159,16 @@
     // mid-conversation lead capture takes priority over everything else
     if (lead.step && lead.step !== 'sending') return handleLeadStep(raw, q);
 
+    /* Someone asking to be contacted. Checked before the catalogue guard
+       below, because passing a lead to the team does not need the catalogue -
+       and a visitor who wants to be contacted is exactly who we must not drop
+       if the store data happens to be unavailable. */
+    if (/contact|get in touch|talk to (someone|a human|the team)|reach out|call me|email me|publish (my|a|our)|submit (my|a|our)|list my (game|app)|partner|work with you|sales|\bdemo\b/.test(q)) {
+      lead.step = 'name';
+      lead.topic = raw.trim().slice(0, 300);
+      return Promise.resolve('Happy to pass you to the team. What is your name?');
+    }
+
     if (loadError || !catalogue) {
       return Promise.resolve('I could not reach the store data just now. ' +
         'Try <a href="games.html">the games page</a> instead.');
@@ -177,13 +187,6 @@
         '<li>Tell me about Mindfold</li>' +
         '<li>What do people say about Kingdom of Ash?</li>' +
         '<li>Compare Mindfold and Pocket Racer 9</li></ul>');
-    }
-
-    // someone asking to be contacted - start collecting details
-    if (/contact|get in touch|talk to (someone|a human|the team)|reach out|call me|email me|publish (my|a|our)|submit (my|a|our)|list my (game|app)|partner|work with you|sales|\bdemo\b/.test(q)) {
-      lead.step = 'name';
-      lead.topic = raw.trim().slice(0, 300);
-      return Promise.resolve('Happy to pass you to the team. What is your name?');
     }
 
     var hits = findTitles(q);
