@@ -37,13 +37,26 @@ function clean(value, max) {
   return value.trim().slice(0, max);
 }
 
+/* A cookie pasted into a dashboard field arrives however the person copied it:
+   split across lines, with stray spaces, sometimes without the separating
+   semicolons. A header value containing a newline makes Headers.append throw,
+   so the request never leaves - which looks like the CRM rejecting us when it
+   never saw the call at all. Rebuild the string into one clean line. */
+function normaliseCookie(raw) {
+  return String(raw || '')
+    .split(/[\r\n;]+/)
+    .map(function (part) { return part.trim(); })
+    .filter(Boolean)
+    .join('; ');
+}
+
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
     return res.status(405).json({ error: 'Use POST' });
   }
 
-  const cookie = process.env.BROADENGAGE_COOKIE;
+  const cookie = normaliseCookie(process.env.BROADENGAGE_COOKIE);
   if (!cookie) {
     // Misconfiguration, not the visitor's fault - do not say why in public.
     console.error('BROADENGAGE_COOKIE is not set in the environment');
@@ -102,7 +115,10 @@ module.exports = async (req, res) => {
     // Return only what the page needs. Never pass the CRM payload straight through.
     return res.status(200).json({ success: true, id: (data.lead && data.lead.id) || null });
   } catch (err) {
-    console.error('Lead forward failed', err && err.message);
+    /* Deliberately not logging err.message. Some failures - a malformed header
+       value, for one - put the offending value in the message, and that value
+       is the CRM credential. Logs are not a safe place for it. */
+    console.error('Lead forward failed:', (err && err.name) || 'Error');
     return res.status(502).json({ error: 'Could not save that just now. Please try again.' });
   }
 };
